@@ -13,4 +13,18 @@ public:
     std::string getTitle() { return title; }
 };
 
+class MenuPage : public Page
+{
+private:
+    std::vector<Item*> items;
+    short arrowPos = 1;
+public:
+    MenuPage(std::string _title) : Page(_title) {}
+    Item* getItem(short pos) { return items.at(pos); }
+    void addItem(Item* item) { items.push_back(item); }
+    short itemCount() { return items.size(); }
+    short getArrowPos() { return arrowPos; }
+    void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
+};
+
 #endif
