@@ -2,6 +2,8 @@
 #define __ITEM_H__
 
 #include <string>
+#include <vector>
+#include <utility>
 
 class Page;
 
@@ -35,6 +37,20 @@ public:
     void setValue(short _value) { value = _value; }
     Spectrum getSpectrum() { return spectrum; }
     std::string getUnit() { return unit; }
+};
+
+class TextOptsItem : public Item
+{
+private:
+    short value;
+    std::vector<std::pair<std::string, short>> opts;
+public:
+    TextOptsItem(std::string _name, Page* _link, std::vector<std::pair<std::string, short>> _opts) :
+        Item(_name, _link), opts(_opts) {}
+    short getValue() { return value; }
+    void setValue(short _value) { value =  _value; }
+    std::pair<std::string, short> getOpt(short pos) { return opts[pos]; }
+    void addOpt(std::pair<std::string, short> opt) { opts.push_back(opt); }
 };
 
 #endif
