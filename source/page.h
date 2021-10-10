@@ -27,4 +27,14 @@ public:
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 };
 
+class SliderPage : public Page
+{
+private:
+    ValueItem* valueItem = nullptr;
+public:
+    SliderPage(std::string _title) : Page(_title) {}
+    ValueItem* getValueItem() { return valueItem; }
+    void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
+};
+
 #endif

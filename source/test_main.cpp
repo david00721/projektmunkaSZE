@@ -26,5 +26,9 @@ int main()
     }
     std::cout << "item count: " << testMenuPage->itemCount() << std::endl;
     std::cout << "arrow position: " << testMenuPage->getArrowPos() << std::endl;
+    std::cout << "-----------------------------------------" << std::endl;
+    SliderPage* testSliderPage = new SliderPage("slider page name");
+    testSliderPage->setValueItem(testValueItem);
+    std::cout << testSliderPage->getValueItem()->getName() << std::endl;
     return 0;
 }
