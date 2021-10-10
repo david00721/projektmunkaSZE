@@ -45,8 +45,8 @@ private:
     short value;
     std::vector<std::pair<std::string, short>> opts;
 public:
-    TextOptsItem(std::string _name, Page* _link, std::vector<std::pair<std::string, short>> _opts) :
-        Item(_name, _link), opts(_opts) {}
+    TextOptsItem(std::string _name, Page* _link, short _value) :
+        Item(_name, _link), value(_value) {}
     short getValue() { return value; }
     void setValue(short _value) { value =  _value; }
     std::pair<std::string, short> getOpt(short pos) { return opts[pos]; }
