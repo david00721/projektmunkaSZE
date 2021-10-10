@@ -30,5 +30,9 @@ int main()
     SliderPage* testSliderPage = new SliderPage("slider page name");
     testSliderPage->setValueItem(testValueItem);
     std::cout << testSliderPage->getValueItem()->getName() << std::endl;
+    std::cout << "-----------------------------------------" << std::endl;
+    TextOptsItem* testTextOptsItem = new TextOptsItem("text options item name", nullptr, 10);
+    testTextOptsItem->addOpt("option #1", 1);
+    std::cout << testTextOptsItem->getOptText(0) << " - " << testTextOptsItem->getOptValue(0) << std::endl;
     return 0;
 }
