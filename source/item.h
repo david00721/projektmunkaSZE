@@ -49,8 +49,9 @@ public:
         Item(_name, _link), value(_value) {}
     short getValue() { return value; }
     void setValue(short _value) { value =  _value; }
-    std::pair<std::string, short> getOpt(short pos) { return opts[pos]; }
-    void addOpt(std::pair<std::string, short> opt) { opts.push_back(opt); }
+    std::string getOptText(short pos) { return opts[pos].first; }
+    short getOptValue(short pos) { return opts[pos].second; }
+    void addOpt(std::string optText, short optValue) { opts.push_back(std::pair<std::string, short>(optText, optValue)); }
 };
 
 #endif
