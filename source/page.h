@@ -27,6 +27,12 @@ public:
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 };
 
+struct Spectrum
+{
+    short min, max, step;
+    Spectrum(short _min, short _max, short _step) : min(_min), max(_max), step(_step) {}
+};
+
 class SliderPage : public Page
 {
 private:

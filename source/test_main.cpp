@@ -8,12 +8,8 @@ int main()
     std::cout << testItem->getLink()->getTitle() << std::endl;
     std::cout << testItem->getName() << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
-    ValueItem* testValueItem = new ValueItem("value item name", nullptr, 20, { 0, 100, 10 }, "cm");
-    std::cout << "value: " << testValueItem->getValue() << std::endl
-        << "min: " << testValueItem->getSpectrum().min << std::endl
-        << "max: " << testValueItem->getSpectrum().max << std::endl
-        << "step: " << testValueItem->getSpectrum().step << std::endl
-        << "unit: " << testValueItem->getUnit() << std::endl;
+    ValueItem* testValueItem = new ValueItem("value item name", nullptr, 20, "cm");
+    std::cout << "value: " << testValueItem->getValue() << std::endl << "unit: " << testValueItem->getUnit() << std::endl;
     testValueItem->setValue(30);
     std::cout << "new value: " << testValueItem->getValue() << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
@@ -30,9 +26,5 @@ int main()
     SliderPage* testSliderPage = new SliderPage("slider page name");
     testSliderPage->setValueItem(testValueItem);
     std::cout << testSliderPage->getValueItem()->getName() << std::endl;
-    std::cout << "-----------------------------------------" << std::endl;
-    TextOptsItem* testTextOptsItem = new TextOptsItem("text options item name", nullptr, 10);
-    testTextOptsItem->addOpt("option #1", 1);
-    std::cout << testTextOptsItem->getOptText(0) << " - " << testTextOptsItem->getOptValue(0) << std::endl;
     return 0;
 }
