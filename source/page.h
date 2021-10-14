@@ -37,10 +37,12 @@ class SliderPage : public Page
 {
 private:
     ValueItem* valueItem = nullptr;
+    Spectrum spectrum;
 public:
-    SliderPage(std::string _title) : Page(_title) {}
+    SliderPage(std::string _title, Spectrum _spectrum) : Page(_title), spectrum(_spectrum) {}
     ValueItem* getValueItem() { return valueItem; }
     void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
+    Spectrum getSpectrum() { return spectrum; }
 };
 
 #endif
