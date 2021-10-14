@@ -27,21 +27,28 @@ public:
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 };
 
+class ValueSetterPage : public Page
+{
+private:
+    ValueItem* valueItem = nullptr;
+public:
+    ValueSetterPage(std::string _title) : Page(_title) {}
+    ValueItem* getValueItem() { return valueItem; }
+    void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
+};
+
 struct Spectrum
 {
     short min, max, step;
     Spectrum(short _min, short _max, short _step) : min(_min), max(_max), step(_step) {}
 };
 
-class SliderPage : public Page
+class SliderPage : public ValueSetterPage
 {
 private:
-    ValueItem* valueItem = nullptr;
     Spectrum spectrum;
 public:
-    SliderPage(std::string _title, Spectrum _spectrum) : Page(_title), spectrum(_spectrum) {}
-    ValueItem* getValueItem() { return valueItem; }
-    void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
+    SliderPage(std::string _title, Spectrum _spectrum) : ValueSetterPage(_title), spectrum(_spectrum) {}
     Spectrum getSpectrum() { return spectrum; }
 };
 
