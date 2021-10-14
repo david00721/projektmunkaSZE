@@ -40,8 +40,13 @@ public:
 
 struct Spectrum
 {
+private:
     short min, max, step;
+public:
     Spectrum(short _min, short _max, short _step) : min(_min), max(_max), step(_step) {}
+    short getMin() { return min; }
+    short getMax() { return max; }
+    short getStep() { return step; }
 };
 
 class SliderPage : public ValueSetterPage

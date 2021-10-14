@@ -26,7 +26,7 @@ int main()
     SliderPage* testSliderPage = new SliderPage("slider page name", Spectrum(0, 100, 10));
     testSliderPage->setValueItem(testValueItem);
     std::cout << testSliderPage->getValueItem()->getName() << std::endl;
-    std::cout << "value: " << testSliderPage->getValueItem()->getValue() << " (" << testSliderPage->getSpectrum().min << "-" << testSliderPage->getSpectrum().max << ")" << std::endl;
+    std::cout << "value: " << testSliderPage->getValueItem()->getValue() << " (" << testSliderPage->getSpectrum().getMin() << "-" << testSliderPage->getSpectrum().getMax() << ")" << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
     TextOptsPage* testTextOptsPage = new TextOptsPage("text options page name");
     testTextOptsPage->addOpt("first option", 10);
