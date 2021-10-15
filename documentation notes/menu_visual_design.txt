@@ -1,0 +1,50 @@
+MAIN MENU
+
+ ► Settings
+   Monitoring
+   Logs
+   Exit
+
+
+
+
+SETTINGS
+
+   Light sensitivity
+   Motion sensitivity
+ ► Timer
+   Back
+
+
+
+
+TIMER
+   ┌
+   │
+   │
+   │
+   │
+   │
+   │
+   ╘ 10 sec
+
+
+
+
+MOTION SENSITIVITY
+   ┌
+   │
+   │
+   │
+   │
+   │
+   ╞ 2/10
+   └
+
+
+
+
+LIGHTSWITCH
+
+   █▀█ █▀▀ █▀▀
+   █▄█ █▀  █▀
