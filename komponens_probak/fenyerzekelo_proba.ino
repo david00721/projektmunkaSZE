@@ -1,4 +1,3 @@
-
 #define LDR A0
 
 void setup() 
@@ -15,3 +14,4 @@ void loop()
   Serial.println(light);
   delay(1000);
 } 
+

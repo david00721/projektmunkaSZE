@@ -1,2 +1,0 @@
-link: https://www.instructables.com/Control-LED-Using-PushButton-With-NodeMCU/
-pin: D6
