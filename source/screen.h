@@ -6,7 +6,7 @@
 #include "page.h"
 
 constexpr short HEIGHT = 8, WIDTH = 32;
-constexpr char ARROWCHAR = '>';
+constexpr char SELECTIONARROWCHAR = '>';
 constexpr char SLIDERARROWCHAR = 'V';
 constexpr char HORIZONTALLINECHAR = '=';
 
@@ -32,14 +32,14 @@ public:
 		short lineNum = 1;
 		for (; lineNum <= menuPage->itemCount(); lineNum++) writeLine(lineNum, "   " + menuPage->getItem(lineNum - 1)->getName());
 		for (; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
-		screenMatrix[menuPage->getArrowPos()][1] = ARROWCHAR;
+		screenMatrix[menuPage->getArrowPos()][1] = SELECTIONARROWCHAR;
 	}
 	void updateArrow(MenuPage* menuPage)
 	{
 		for (short lineNum = 1; lineNum < HEIGHT; lineNum++)
 		{
-			if (screenMatrix[lineNum][1] == ARROWCHAR) screenMatrix[lineNum][1] = ' ';
-			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = ARROWCHAR;
+			if (screenMatrix[lineNum][1] == SELECTIONARROWCHAR) screenMatrix[lineNum][1] = ' ';
+			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = SELECTIONARROWCHAR;
 		}
 	}
 	void loadPage(SliderPage* sliderPage)
