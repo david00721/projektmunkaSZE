@@ -1,5 +1,5 @@
 #include <iostream>
-#include "page.h"
+#include "screen.h"
 
 int main()
 {
@@ -31,5 +31,9 @@ int main()
     TextOptsPage* testTextOptsPage = new TextOptsPage("text options page name");
     testTextOptsPage->addOpt("first option", 10);
     std::cout << testTextOptsPage->getOptText(0) << " - " << testTextOptsPage->getOptValue(0) << std::endl;
+    std::cout << "-----------------------------------------" << std::endl;
+    Screen* testScreen = new Screen;
+    testScreen->loadPage(testMenuPage);
+    testScreen->print();
     return 0;
 }
