@@ -35,5 +35,9 @@ int main()
     Screen* testScreen = new Screen;
     testScreen->loadPage(testMenuPage);
     testScreen->print();
+    testMenuPage->setArrowPos(testMenuPage->getArrowPos() + 1);
+    testScreen->updateArrow(testMenuPage);
+    testScreen->print();
+
     return 0;
 }

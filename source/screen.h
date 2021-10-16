@@ -27,6 +27,14 @@ public:
 		for (; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
 		changeChar(menuPage->getArrowPos(), 1, '>');
 	}
+	void updateArrow(MenuPage* menuPage)
+	{
+		for (short lineNum = 1; lineNum < HEIGHT; lineNum++)
+		{
+			if (sceenMatrix[lineNum][1] == '>') sceenMatrix[lineNum][1] = ' ';
+			if (lineNum == menuPage->getArrowPos()) sceenMatrix[lineNum][1] = '>';
+		}
+	}
 	void print() { for (char* line : sceenMatrix) std::cout << line << std::endl; }
 };
 
