@@ -16,11 +16,11 @@ int main()
     MenuPage* testMenuPage = new MenuPage("menu page name");
     testMenuPage->addItem(testItem);
     testMenuPage->addItem(testValueItem);
-    for (short i = 0; i < testMenuPage->itemCount(); i++)
+    for (short i = 0; i < testMenuPage->selectionCount(); i++)
     {
         std::cout << testMenuPage->getItem(i)->getName() << std::endl;
     }
-    std::cout << "item count: " << testMenuPage->itemCount() << std::endl;
+    std::cout << "item count: " << testMenuPage->selectionCount() << std::endl;
     std::cout << "arrow position: " << testMenuPage->getArrowPos() << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
     SliderPage* testSliderPage = new SliderPage("slider page name", Spectrum(0, 100, 10));
@@ -30,7 +30,7 @@ int main()
     std::cout << "-----------------------------------------" << std::endl;
     TextOptsPage* testTextOptsPage = new TextOptsPage("text options page name");
     testTextOptsPage->addOpt("first option", 10);
-    std::cout << testTextOptsPage->getOptText(0) << " - " << testTextOptsPage->getOptValue(0) << std::endl;
+    std::cout << testTextOptsPage->getSelectionText(0) << " - " << testTextOptsPage->getOptValue(0) << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
     Screen* testScreen = new Screen;
     testScreen->loadPage(testMenuPage);

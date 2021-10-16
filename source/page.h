@@ -23,7 +23,6 @@ public:
     MenuPage(std::string _title) : Page(_title) {}
     Item* getItem(short pos) { return items.at(pos); }
     void addItem(Item* item) { items.push_back(item); }
-    short itemCount() { return items.size(); }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 
@@ -69,7 +68,6 @@ private:
 public:
     TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
-    std::string getOptText(short pos) { return opts[pos].first; }
     short getOptValue(short pos) { return opts[pos].second; }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
