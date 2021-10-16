@@ -1,7 +1,6 @@
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
 
-#include <stdexcept>
 #include <iostream>
 #include "page.h"
 
