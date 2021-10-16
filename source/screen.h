@@ -17,7 +17,6 @@ private:
 		for (; pos < input.length(); pos++) sceenMatrix[lineNum][pos] = input[pos];
 		for (; pos < WIDTH; pos++) sceenMatrix[lineNum][pos] = '\0';
 	}
-	void changeChar(short y, short x, char input) { sceenMatrix[y][x] = input; }
 public:
 	void loadPage(MenuPage* menuPage)
 	{
@@ -26,7 +25,7 @@ public:
 		short lineNum = 1;
 		for (; lineNum <= menuPage->itemCount(); lineNum++) writeLine(lineNum, "   " + menuPage->getItem(lineNum - 1)->getName());
 		for (; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
-		changeChar(menuPage->getArrowPos(), 1, '>');
+		sceenMatrix[menuPage->getArrowPos()][1] = '>';
 	}
 	void updateArrow(MenuPage* menuPage)
 	{
