@@ -40,6 +40,8 @@ int main()
     testScreen->print();
     testScreen->loadPage(testSliderPage);
     testScreen->print();
-
+    testSliderPage->getValueItem()->setValue(62);
+    testScreen->updateArrow(testSliderPage);
+    testScreen->print();
     return 0;
 }

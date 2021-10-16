@@ -53,6 +53,12 @@ public:
 		writeLine(5, std::string(WIDTH-1, HORIZONTALLINECHAR));
 		for (short lineNum = 6; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
 	}
+	void updateArrow(SliderPage* sliderPage)
+	{
+		writeLine(1, "Value: " + std::to_string(sliderPage->getValueItem()->getValue()));
+		writeLine(4, std::string(WIDTH - 1, ' '));
+		screenMatrix[4][calculateSliderArrowPos(sliderPage->getValueItem()->getValue(), sliderPage->getSpectrum(), WIDTH)] = SLIDERARROWCHAR;
+	}
 	void print() { for (char* line : screenMatrix) std::cout << line << std::endl; }
 	
 };
