@@ -24,24 +24,30 @@ private:
 	{
 		return range * value / (spectrum.getMax() - spectrum.getMin());
 	}
-public:
-	void loadPage(MenuPage* menuPage)
+
+	template<class T>
+	void loadAnySelectionPage(T* selectionPage)
 	{
-		menuPage->setArrowPos(1);
-		writeLine(0, menuPage->getTitle());
+		selectionPage->setArrowPos(1);
+		writeLine(0, selectionPage->getTitle());
 		short lineNum = 1;
-		for (; lineNum <= menuPage->itemCount(); lineNum++) writeLine(lineNum, "   " + menuPage->getItem(lineNum - 1)->getName());
+		for (; lineNum <= selectionPage->selectionCount(); lineNum++) writeLine(lineNum, "   " + selectionPage->getSelectionText(lineNum - 1));
 		for (; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
-		screenMatrix[menuPage->getArrowPos()][1] = SELECTIONARROWCHAR;
+		screenMatrix[selectionPage->getArrowPos()][1] = SELECTIONARROWCHAR;
 	}
-	void updateArrow(MenuPage* menuPage)
+	template<class T>
+	void updateAnySelectionArrow(T* selectionPage)
 	{
 		for (short lineNum = 1; lineNum < HEIGHT; lineNum++)
 		{
 			if (screenMatrix[lineNum][1] == SELECTIONARROWCHAR) screenMatrix[lineNum][1] = ' ';
-			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = SELECTIONARROWCHAR;
+			if (lineNum == selectionPage->getArrowPos()) screenMatrix[lineNum][1] = SELECTIONARROWCHAR;
 		}
 	}
+
+public:
+	void loadPage(MenuPage* menuPage) { loadAnySelectionPage(menuPage); }
+	void updateArrow(MenuPage* menuPage) { updateAnySelectionArrow(menuPage); }
 	void updateArrow(SliderPage* sliderPage)
 	{
 		writeLine(1, "Value: " + std::to_string(sliderPage->getValueItem()->getValue()));
@@ -57,8 +63,9 @@ public:
 		writeLine(5, std::string(WIDTH-1, HORIZONTALLINECHAR));
 		for (short lineNum = 6; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
 	}
+	void loadPage(TextOptsPage* textOptsPage) { loadAnySelectionPage(textOptsPage); }
+	void updateArrow(TextOptsPage* textOptsPage) { updateAnySelectionArrow(textOptsPage); }
 	void print() { for (char* line : screenMatrix) std::cout << line << std::endl; }
-	
 };
 
 #endif

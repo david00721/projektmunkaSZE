@@ -38,10 +38,15 @@ int main()
     testMenuPage->setArrowPos(testMenuPage->getArrowPos() + 1);
     testScreen->updateArrow(testMenuPage);
     testScreen->print();
+    std::cout << "-----------------------------------------" << std::endl;
     testScreen->loadPage(testSliderPage);
     testScreen->print();
     testSliderPage->getValueItem()->setValue(62);
     testScreen->updateArrow(testSliderPage);
+    testScreen->print();
+    std::cout << "-----------------------------------------" << std::endl;
+    testTextOptsPage->addOpt("second option", 20);
+    testScreen->loadPage(testTextOptsPage);
     testScreen->print();
     return 0;
 }
