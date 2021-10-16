@@ -62,11 +62,14 @@ class TextOptsPage : public ValueSetterPage
 {
 private:
     std::vector<std::pair<std::string, short>> opts;
+    short arrowPos = 1;
 public:
     TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
     std::string getOptText(short pos) { return opts[pos].first; }
     short getOptValue(short pos) { return opts[pos].second; }
+    short getArrowPos() { return arrowPos; }
+    void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 };
 
 #endif
