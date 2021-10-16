@@ -6,6 +6,7 @@
 #include "page.h"
 
 constexpr short HEIGHT = 8, WIDTH = 32;
+constexpr char ARROWCHAR = '>';
 
 class Screen
 {
@@ -25,14 +26,14 @@ public:
 		short lineNum = 1;
 		for (; lineNum <= menuPage->itemCount(); lineNum++) writeLine(lineNum, "   " + menuPage->getItem(lineNum - 1)->getName());
 		for (; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
-		screenMatrix[menuPage->getArrowPos()][1] = '>';
+		screenMatrix[menuPage->getArrowPos()][1] = ARROWCHAR;
 	}
 	void updateArrow(MenuPage* menuPage)
 	{
 		for (short lineNum = 1; lineNum < HEIGHT; lineNum++)
 		{
-			if (screenMatrix[lineNum][1] == '>') screenMatrix[lineNum][1] = ' ';
-			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = '>';
+			if (screenMatrix[lineNum][1] == ARROWCHAR) screenMatrix[lineNum][1] = ' ';
+			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = ARROWCHAR;
 		}
 	}
 	void print() { for (char* line : screenMatrix) std::cout << line << std::endl; }
