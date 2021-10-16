@@ -21,6 +21,7 @@ private:
 public:
 	void loadPage(MenuPage* menuPage)
 	{
+		menuPage->setArrowPos(1);
 		writeLine(0, menuPage->getTitle());
 		short lineNum = 1;
 		for (; lineNum <= menuPage->itemCount(); lineNum++) writeLine(lineNum, "   " + menuPage->getItem(lineNum - 1)->getName());
