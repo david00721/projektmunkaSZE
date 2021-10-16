@@ -38,6 +38,8 @@ int main()
     testMenuPage->setArrowPos(testMenuPage->getArrowPos() + 1);
     testScreen->updateArrow(testMenuPage);
     testScreen->print();
+    testScreen->loadPage(testSliderPage);
+    testScreen->print();
 
     return 0;
 }

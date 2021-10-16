@@ -7,6 +7,8 @@
 
 constexpr short HEIGHT = 8, WIDTH = 32;
 constexpr char ARROWCHAR = '>';
+constexpr char SLIDERARROWCHAR = 'V';
+constexpr char HORIZONTALLINECHAR = '=';
 
 class Screen
 {
@@ -17,6 +19,10 @@ private:
 		short pos = 0;
 		for (; pos < input.length(); pos++) screenMatrix[lineNum][pos] = input[pos];
 		for (; pos < WIDTH; pos++) screenMatrix[lineNum][pos] = '\0';
+	}
+	short calculateSliderArrowPos(short value, Spectrum spectrum, short range)
+	{
+		return range * value / (spectrum.getMax() - spectrum.getMin());
 	}
 public:
 	void loadPage(MenuPage* menuPage)
@@ -36,7 +42,18 @@ public:
 			if (lineNum == menuPage->getArrowPos()) screenMatrix[lineNum][1] = ARROWCHAR;
 		}
 	}
+	void loadPage(SliderPage* sliderPage)
+	{
+		writeLine(0, sliderPage->getTitle());
+		writeLine(1, "Value: " + std::to_string(sliderPage->getValueItem()->getValue()));
+		writeLine(2, "Min: " + std::to_string(sliderPage->getSpectrum().getMin()) + ", Max: " + std::to_string(sliderPage->getSpectrum().getMax()));
+		writeLine(3, "");
+		writeLine(4, std::string(calculateSliderArrowPos(sliderPage->getValueItem()->getValue(), sliderPage->getSpectrum(), WIDTH) - 1, ' ') + SLIDERARROWCHAR);
+		writeLine(5, std::string(WIDTH-1, HORIZONTALLINECHAR));
+		for (short lineNum = 6; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
+	}
 	void print() { for (char* line : screenMatrix) std::cout << line << std::endl; }
+	
 };
 
 #endif
