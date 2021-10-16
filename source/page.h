@@ -25,7 +25,6 @@ public:
     void addItem(Item* item) { items.push_back(item); }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
-
     std::string getSelectionText(short pos) { return items[pos]->getName(); }
     short selectionCount() { return items.size(); }
 };
@@ -68,10 +67,9 @@ private:
 public:
     TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
-    short getSelectionValue(short pos) { return opts[pos].second; }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
-
+    short getSelectionValue(short pos) { return opts[pos].second; }
     std::string getSelectionText(short pos) { return opts[pos].first; }
     short selectionCount() { return opts.size(); }
 };
