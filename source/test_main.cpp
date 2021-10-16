@@ -30,7 +30,7 @@ int main()
     std::cout << "-----------------------------------------" << std::endl;
     TextOptsPage* testTextOptsPage = new TextOptsPage("text options page name");
     testTextOptsPage->addOpt("first option", 10);
-    std::cout << testTextOptsPage->getSelectionText(0) << " - " << testTextOptsPage->getOptValue(0) << std::endl;
+    std::cout << testTextOptsPage->getSelectionText(0) << " - " << testTextOptsPage->getSelectionValue(0) << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
     Screen* testScreen = new Screen;
     testScreen->loadPage(testMenuPage);

@@ -68,7 +68,7 @@ private:
 public:
     TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
-    short getOptValue(short pos) { return opts[pos].second; }
+    short getSelectionValue(short pos) { return opts[pos].second; }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
 
