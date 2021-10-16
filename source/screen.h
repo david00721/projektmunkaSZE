@@ -48,7 +48,8 @@ public:
 		writeLine(1, "Value: " + std::to_string(sliderPage->getValueItem()->getValue()));
 		writeLine(2, "Min: " + std::to_string(sliderPage->getSpectrum().getMin()) + ", Max: " + std::to_string(sliderPage->getSpectrum().getMax()));
 		writeLine(3, "");
-		writeLine(4, std::string(calculateSliderArrowPos(sliderPage->getValueItem()->getValue(), sliderPage->getSpectrum(), WIDTH) - 1, ' ') + SLIDERARROWCHAR);
+		writeLine(4, std::string(WIDTH - 1, ' '));
+		screenMatrix[4][calculateSliderArrowPos(sliderPage->getValueItem()->getValue(), sliderPage->getSpectrum(), WIDTH)] = SLIDERARROWCHAR;
 		writeLine(5, std::string(WIDTH-1, HORIZONTALLINECHAR));
 		for (short lineNum = 6; lineNum < HEIGHT; lineNum++) writeLine(lineNum, "");
 	}
