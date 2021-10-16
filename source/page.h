@@ -26,6 +26,9 @@ public:
     short itemCount() { return items.size(); }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
+
+    std::string getSelectionText(short pos) { return items[pos]->getName(); }
+    short selectionCount() { return items.size(); }
 };
 
 class ValueSetterPage : public Page
@@ -70,6 +73,9 @@ public:
     short getOptValue(short pos) { return opts[pos].second; }
     short getArrowPos() { return arrowPos; }
     void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
+
+    std::string getSelectionText(short pos) { return opts[pos].first; }
+    short selectionCount() { return opts.size(); }
 };
 
 #endif
