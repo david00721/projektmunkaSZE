@@ -116,6 +116,8 @@ public:
         screen->writeLine(5, std::string(WIDTH - 1, HORIZONTALLINECHAR));
         for (short lineNum = 6; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
     }
+
+    void foo() {}
 };
 
 class TextOptsPage : public ValueSetterPage
@@ -153,6 +155,8 @@ public:
         for (; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
         screen->getScreenMatrix()[arrowPos][1] = SELECTIONARROWCHAR;
     }
+
+    void foo() {}
 };
 
 #endif
