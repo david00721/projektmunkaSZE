@@ -1,7 +1,7 @@
 #include "buttons.h"
 
 //0: OK - 1: UP - 2: DOWN
-std::vector<short>inputSequence = { 0, 0, 1, 0};
+std::vector<short>inputSequence = { 0, 2, 0, 1, 1, 1, 1};
 
 void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
 {
@@ -61,6 +61,8 @@ int main()
     settingsPage.addItem(&timerItem);
 
     lightSensitivityPage.setValueItem(&lightSensitivityItem);
+
+    timerPage.setValueItem(&timerItem);
 
     //creaing the screen and running the simulation on it
 
