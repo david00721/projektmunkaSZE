@@ -77,9 +77,10 @@ class ValueSetterPage : public Page
 {
 private:
     ValueItem* valueItem = nullptr;
+protected:
+    ValueItem* getValueItem() { return valueItem; }
 public:
     ValueSetterPage(std::string _title) : Page(_title) {}
-    ValueItem* getValueItem() { return valueItem; }
     void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
 
     virtual void foo() = 0;
