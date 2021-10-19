@@ -28,10 +28,14 @@ void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
 
 int main()
 {
+    //creating pages
+
     MenuPage mainMenuPage = MenuPage("MAIN MENU");
     MenuPage settingsPage = MenuPage("SETTINGS");
     MenuPage monitoringPage = MenuPage("MONITORING");
     MenuPage logsPage = MenuPage("LOGS");
+
+    //creating items
 
     Item backToMainMenuPageItem = Item("Back", &mainMenuPage);
     Item settingsItem = Item("Settings", &settingsPage);
@@ -40,6 +44,8 @@ int main()
     
     ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &settingsPage, 10, "");
     ValueItem timerItem = ValueItem("Timer", &settingsPage, 60, "sec");
+
+    //filling up pages
 
     mainMenuPage.addItem(&settingsItem);
     mainMenuPage.addItem(&monitoringItem);
@@ -50,6 +56,8 @@ int main()
     settingsPage.addItem(&backToMainMenuPageItem);
 
     monitoringPage.addItem(&backToMainMenuPageItem);
+
+    //creaing the screen and running the simulation on it
 
     Screen screen;
     
