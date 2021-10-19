@@ -1,7 +1,7 @@
 #include "buttons.h"
 
 //0: OK - 1: UP - 2: DOWN
-std::vector<short>inputSequence = { 0, 1, 0 , 1, 0};
+std::vector<short>inputSequence = { 0, 0, 1, 0};
 
 void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
 {
@@ -36,6 +36,9 @@ int main()
     MenuPage logsPage = MenuPage("LOGS", &mainMenuPage);
 
     TextOptsPage lightSensitivityPage = TextOptsPage("LIGHT SENSITIVITY", &settingsPage);
+    lightSensitivityPage.addOpt("Low", 10);
+    lightSensitivityPage.addOpt("Medium", 20);
+    lightSensitivityPage.addOpt("High", 30);
 
     SliderPage timerPage = SliderPage("TIMER", &settingsPage, Spectrum(0, 100, 10));
 
@@ -45,7 +48,7 @@ int main()
     Item monitoringItem = Item("Monitoring", &monitoringPage);
     Item logsItem = Item("Logs", &logsPage);
     
-    ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &lightSensitivityPage, 10, "");
+    ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &lightSensitivityPage, lightSensitivityPage.getFirstOptionValue(), "");
     ValueItem timerItem = ValueItem("Timer", &timerPage, 60, "sec");
 
     //filling up pages
@@ -56,6 +59,8 @@ int main()
 
     settingsPage.addItem(&lightSensitivityItem);
     settingsPage.addItem(&timerItem);
+
+    lightSensitivityPage.setValueItem(&lightSensitivityItem);
 
     //creaing the screen and running the simulation on it
 

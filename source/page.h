@@ -71,7 +71,7 @@ public:
     void loadPage(Screen* screen)
     {
         arrowPos = 1;
-        screen->writeLine(0, this->getTitle());
+        screen->writeLine(0, getTitle());
         short lineNum = 1;
         for (; lineNum <= items.size(); lineNum++) screen->writeLine(lineNum, "   " + items[lineNum - 1]->getName());
         getBack() == nullptr ? screen->writeLine(lineNum, "   Exit") : screen->writeLine(lineNum, "   Back"); lineNum++;
@@ -135,6 +135,7 @@ private:
 public:
     TextOptsPage(std::string _title, Page* _back) : ValueSetterPage(_title, _back) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
+    short getFirstOptionValue() { return opts[0].second; }
 
     void move(bool upDirection)
     {
@@ -156,7 +157,7 @@ public:
     void loadPage(Screen* screen)
     {
         arrowPos = 1;
-        screen->writeLine(0, this->getTitle());
+        screen->writeLine(0, getTitle());
         short lineNum = 1;
         for (; lineNum <= opts.size(); lineNum++) screen->writeLine(lineNum, "   " + opts[lineNum - 1].first);
         for (; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
