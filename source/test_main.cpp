@@ -28,32 +28,32 @@ void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
 
 int main()
 {
-    MenuPage mainMenu = MenuPage("MAIN MENU");
-    MenuPage settingsMenu = MenuPage("SETTINGS");
-    MenuPage monitoringMenu = MenuPage("MONITORING");
-    MenuPage logsMenu = MenuPage("LOGS");
+    MenuPage mainMenuPage = MenuPage("MAIN MENU");
+    MenuPage settingsPage = MenuPage("SETTINGS");
+    MenuPage monitoringPage = MenuPage("MONITORING");
+    MenuPage logsPage = MenuPage("LOGS");
 
-    Item backToMainMenuItem = Item("Back", &mainMenu);
-    Item settingsItem = Item("Settings", &settingsMenu);
-    Item monitoringItem = Item("Monitoring", &monitoringMenu);
-    Item logsItem = Item("Logs", &logsMenu);
+    Item backToMainMenuPageItem = Item("Back", &mainMenuPage);
+    Item settingsItem = Item("Settings", &settingsPage);
+    Item monitoringItem = Item("Monitoring", &monitoringPage);
+    Item logsItem = Item("Logs", &logsPage);
     
-    ValueItem lightSensitivity = ValueItem("Light Sensitivity", &settingsMenu, 10, "");
-    ValueItem timer = ValueItem("Timer", &settingsMenu, 60, "sec");
+    ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &settingsPage, 10, "");
+    ValueItem timerItem = ValueItem("Timer", &settingsPage, 60, "sec");
 
-    mainMenu.addItem(&settingsItem);
-    mainMenu.addItem(&monitoringItem);
-    mainMenu.addItem(&logsItem);
+    mainMenuPage.addItem(&settingsItem);
+    mainMenuPage.addItem(&monitoringItem);
+    mainMenuPage.addItem(&logsItem);
 
-    settingsMenu.addItem(&lightSensitivity);
-    settingsMenu.addItem(&timer);
-    settingsMenu.addItem(&backToMainMenuItem);
+    settingsPage.addItem(&lightSensitivityItem);
+    settingsPage.addItem(&timerItem);
+    settingsPage.addItem(&backToMainMenuPageItem);
 
-    monitoringMenu.addItem(&backToMainMenuItem);
+    monitoringPage.addItem(&backToMainMenuPageItem);
 
     Screen screen;
     
-    runSimulation(inputSequence, &mainMenu, &screen);
+    runSimulation(inputSequence, &mainMenuPage, &screen);
 
     return 0;
 }
