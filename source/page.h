@@ -26,9 +26,11 @@ short calculateSliderArrowPos(short value, Spectrum spectrum, short range)
 class Page {
 private:
     std::string title;
+    Page* back;
 public:
-    Page(std::string _title) : title(_title) {}
+    Page(std::string _title, Page* _back) : title(_title), back(_back) {}
     std::string getTitle() { return title; }
+    Page* getBack() { return back; }
 
     virtual void move(bool) {}
     virtual Page* ok() { return nullptr; }
@@ -43,16 +45,20 @@ private:
     std::vector<Item*> items;
     short arrowPos = 1;
 public:
-    MenuPage(std::string _title) : Page(_title) {}
+    MenuPage(std::string _title, Page* _back = nullptr) : Page(_title, _back) {}
     void addItem(Item* item) { items.push_back(item); }
 
     void move(bool upDirection)
     {
-        if (upDirection && arrowPos == 1) arrowPos = items.size();
-        else if (!upDirection && arrowPos == items.size()) arrowPos = 1;
+        if (upDirection && arrowPos == 1) arrowPos = items.size() + 1;
+        else if (!upDirection && arrowPos == items.size() + 1) arrowPos = 1;
         else upDirection ? arrowPos-- : arrowPos++;
     }
-    Page* ok() { return items[arrowPos - 1]->getLink(); }
+    Page* ok()
+    {
+        if (arrowPos != items.size() + 1) return items[arrowPos - 1]->getLink();
+        else return getBack();
+    }
 
     void updateArrow(Screen* screen)
     {
@@ -68,6 +74,7 @@ public:
         screen->writeLine(0, this->getTitle());
         short lineNum = 1;
         for (; lineNum <= items.size(); lineNum++) screen->writeLine(lineNum, "   " + items[lineNum - 1]->getName());
+        getBack() == nullptr ? screen->writeLine(lineNum, "   Exit") : screen->writeLine(lineNum, "   Back"); lineNum++;
         for (; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
         screen->getScreenMatrix()[arrowPos][1] = SELECTIONARROWCHAR;
     }
@@ -80,7 +87,7 @@ private:
 protected:
     ValueItem* getValueItem() { return valueItem; }
 public:
-    ValueSetterPage(std::string _title) : Page(_title) {}
+    ValueSetterPage(std::string _title, Page* _back) : Page(_title, _back) {}
     void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
 
     virtual void foo() = 0;
@@ -91,7 +98,7 @@ class SliderPage : public ValueSetterPage
 private:
     Spectrum spectrum;
 public:
-    SliderPage(std::string _title, Spectrum _spectrum) : ValueSetterPage(_title), spectrum(_spectrum) {}
+    SliderPage(std::string _title, Page* _back, Spectrum _spectrum) : ValueSetterPage(_title, _back), spectrum(_spectrum) {}
     
     void move(bool upDirection)
     {
@@ -126,7 +133,7 @@ private:
     std::vector<std::pair<std::string, short>> opts;
     short arrowPos = 1;
 public:
-    TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
+    TextOptsPage(std::string _title, Page* _back) : ValueSetterPage(_title, _back) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
 
     void move(bool upDirection)
@@ -136,7 +143,7 @@ public:
         else upDirection ? arrowPos-- : arrowPos++;
         getValueItem()->setValue(opts[arrowPos - 1].second);
     }
-    Page* ok() { return getValueItem()->getLink(); }
+    Page* ok() { return getBack(); }
 
     void updateArrow(Screen* screen)
     {

@@ -1,7 +1,7 @@
 #include "buttons.h"
 
-//1: OK - 2: UP - 3: DOWN
-std::vector<short>inputSequence = { 0, 1, 0 };
+//0: OK - 1: UP - 2: DOWN
+std::vector<short>inputSequence = { 0, 1, 0 , 1, 0};
 
 void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
 {
@@ -31,19 +31,22 @@ int main()
     //creating pages
 
     MenuPage mainMenuPage = MenuPage("MAIN MENU");
-    MenuPage settingsPage = MenuPage("SETTINGS");
-    MenuPage monitoringPage = MenuPage("MONITORING");
-    MenuPage logsPage = MenuPage("LOGS");
+    MenuPage settingsPage = MenuPage("SETTINGS", &mainMenuPage);
+    MenuPage monitoringPage = MenuPage("MONITORING", &mainMenuPage);
+    MenuPage logsPage = MenuPage("LOGS", &mainMenuPage);
+
+    TextOptsPage lightSensitivityPage = TextOptsPage("LIGHT SENSITIVITY", &settingsPage);
+
+    SliderPage timerPage = SliderPage("TIMER", &settingsPage, Spectrum(0, 100, 10));
 
     //creating items
 
-    Item backToMainMenuPageItem = Item("Back", &mainMenuPage);
     Item settingsItem = Item("Settings", &settingsPage);
     Item monitoringItem = Item("Monitoring", &monitoringPage);
     Item logsItem = Item("Logs", &logsPage);
     
-    ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &settingsPage, 10, "");
-    ValueItem timerItem = ValueItem("Timer", &settingsPage, 60, "sec");
+    ValueItem lightSensitivityItem = ValueItem("Light Sensitivity", &lightSensitivityPage, 10, "");
+    ValueItem timerItem = ValueItem("Timer", &timerPage, 60, "sec");
 
     //filling up pages
 
@@ -53,9 +56,6 @@ int main()
 
     settingsPage.addItem(&lightSensitivityItem);
     settingsPage.addItem(&timerItem);
-    settingsPage.addItem(&backToMainMenuPageItem);
-
-    monitoringPage.addItem(&backToMainMenuPageItem);
 
     //creaing the screen and running the simulation on it
 

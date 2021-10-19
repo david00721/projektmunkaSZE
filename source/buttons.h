@@ -5,7 +5,7 @@
 
 void openAction(Page* page, Screen* screen)
 {
-	page->loadPage(screen);
+	page == nullptr ? screen->clear() : page->loadPage(screen);
 	screen->print();
 }
 

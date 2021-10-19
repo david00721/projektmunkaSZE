@@ -20,6 +20,7 @@ public:
 		for (; pos < input.length(); pos++) screenMatrix[lineNum][pos] = input[pos];
 		for (; pos < WIDTH; pos++) screenMatrix[lineNum][pos] = '\0';
 	}
+	void clear() { for (short lineNum = 0; lineNum < HEIGHT; lineNum++) writeLine(lineNum, ""); }
 	void print() { for (char* line : screenMatrix) std::cout << line << std::endl; }
 };
 
