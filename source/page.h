@@ -44,7 +44,6 @@ private:
     short arrowPos = 1;
 public:
     MenuPage(std::string _title) : Page(_title) {}
-    Item* getItem(short pos) { return items.at(pos); }
     void addItem(Item* item) { items.push_back(item); }
 
     void move(bool upDirection)
@@ -126,7 +125,6 @@ private:
 public:
     TextOptsPage(std::string _title) : ValueSetterPage(_title) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
-    short getOptValue(short pos) { return opts[pos].second; }
 
     void move(bool upDirection)
     {
