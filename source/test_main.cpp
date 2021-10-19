@@ -1,5 +1,31 @@
 #include "buttons.h"
 
+//1: OK - 2: UP - 3: DOWN
+std::vector<short>inputSequence = { 0, 1, 0 };
+
+void runSimulation(std::vector<short> inputSequence, Page* page, Screen* screen)
+{
+    std::cout << "Opening the menu...\n\n"; openAction(page, screen);
+    for (short currentInput : inputSequence)
+    {
+        if (currentInput == 0)
+        {
+            std::cout << "\nPressing the OK button...\n\n";
+            page = okButtonAction(page, screen);
+        }
+        else if (currentInput == 1)
+        {
+            std::cout << "\nPressing the up button...\n\n";
+            upButtonAction(page, screen);
+        }
+        else if (currentInput == 2)
+        {
+            std::cout << "\nPressing the down button...\n\n";
+            downButtonAction(page, screen);
+        }
+    }
+}
+
 int main()
 {
     MenuPage mainMenu = MenuPage("MAIN MENU");
@@ -28,17 +54,7 @@ int main()
     Screen* screen = new Screen;
     Page* currentPage = &mainMenu;
     
-    std::cout << std::endl << "Opening the menu... " << std::endl << std::endl;
-    openAction(currentPage, screen);
-
-    std::cout << std::endl << "Pressing the OK button... " << std::endl << std::endl;
-    currentPage = okButtonAction(currentPage, screen);
-
-    std::cout << std::endl << "Pressing the UP button... " << std::endl << std::endl;
-    upButtonAction(currentPage, screen);
-
-    std::cout << std::endl << "Pressing the OK button... " << std::endl << std::endl;
-    currentPage = okButtonAction(currentPage, screen);
+    runSimulation(inputSequence, currentPage, screen);
 
     return 0;
 }
