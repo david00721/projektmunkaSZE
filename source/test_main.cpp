@@ -51,10 +51,9 @@ int main()
 
     monitoringMenu.addItem(&backToMainMenuItem);
 
-    Screen* screen = new Screen;
-    Page* currentPage = &mainMenu;
+    Screen screen;
     
-    runSimulation(inputSequence, currentPage, screen);
+    runSimulation(inputSequence, &mainMenu, &screen);
 
     return 0;
 }
