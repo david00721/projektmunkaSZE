@@ -82,19 +82,21 @@ class ValueSetterPage : public Page
 {
 private:
     ValueItem* valueItem = nullptr;
+
+    virtual void foo() = 0;
 protected:
     ValueItem* getValueItem() { return valueItem; }
 public:
     ValueSetterPage(std::string _title, Page* _back) : Page(_title, _back) {}
     void setValueItem(ValueItem* _valueItem) { valueItem = _valueItem; }
-
-    virtual void foo() = 0;
 };
 
 class SliderPage : public ValueSetterPage
 {
 private:
     Spectrum spectrum;
+
+    void foo() {}
 public:
     SliderPage(std::string _title, Page* _back, Spectrum _spectrum) : ValueSetterPage(_title, _back), spectrum(_spectrum) {}
     
@@ -121,8 +123,6 @@ public:
         screen->writeLine(5, std::string(WIDTH - 1, HORIZONTALLINECHAR));
         for (short lineNum = 6; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
     }
-
-    void foo() {}
 };
 
 class TextOptsPage : public ValueSetterPage
@@ -130,6 +130,8 @@ class TextOptsPage : public ValueSetterPage
 private:
     std::vector<std::pair<std::string, short>> opts;
     short arrowPos = 1;
+
+    void foo() {}
 public:
     TextOptsPage(std::string _title, Page* _back) : ValueSetterPage(_title, _back) {}
     void addOpt(std::string _text, short _value) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
@@ -161,8 +163,6 @@ public:
         for (; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
         screen->getScreenMatrix()[arrowPos][1] = SELECTIONARROWCHAR;
     }
-
-    void foo() {}
 };
 
 #endif
