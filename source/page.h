@@ -1,8 +1,6 @@
 #ifndef __PAGE_H__
 #define __PAGE_H__
 
-#include <string>
-#include <vector>
 #include <utility>
 #include "item.h"
 #include "screen.h"
