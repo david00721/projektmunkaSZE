@@ -10,7 +10,7 @@
 #define okButton 10
 
 short lightTreshold = 200;
-int timer = 10000;
+short timer = 10;
 bool bulb = false;
 unsigned long lastTriggerTime = 0;
 int lightValue;
@@ -61,7 +61,7 @@ void loop()
     if (!bulb) bulb = true;
     digitalWrite(LED_BUILTIN, LOW);
   }
-  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > timer)
+  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > (timer - 3) * 1000)
   {
     bulb = false;
     digitalWrite(LED_BUILTIN, HIGH);
