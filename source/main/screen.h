@@ -5,7 +5,7 @@
 #include <Wire.h>
 #include "ACROBOTIC_SSD1306.h"
 
-constexpr short HEIGHT = 8, WIDTH = 32;
+constexpr short HEIGHT = 8, WIDTH = 15;
 constexpr char SELECTIONARROWCHAR = '>';
 constexpr char SLIDERARROWCHAR = 'V';
 constexpr char HORIZONTALLINECHAR = '=';
@@ -17,12 +17,12 @@ private:
   
 public:
 	auto getScreenMatrix() { return screenMatrix; }
-	void writeLine(short lineNum, std::string input)
+	static void writeLine(short lineNum, std::string input)
 	{
 		oled.setTextXY(lineNum, 0);
     oled.putString(input.c_str());
 	}
- void writeChar(short lineNum, short colomnNum, char character)
+ static void writeChar(short lineNum, short colomnNum, char character)
  {
     oled.setTextXY(lineNum, colomnNum);
     oled.putString(&character);

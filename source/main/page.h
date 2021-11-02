@@ -35,6 +35,7 @@ public:
 
     virtual void updateArrow(Screen*) {}
     virtual void loadPage(Screen*) {}
+    virtual void loadPage() {}
 };
 
 class MenuPage : public Page
@@ -58,23 +59,23 @@ public:
         else return getBack();
     }
 
-    void updateArrow(Screen* screen)
+    void updateArrow()
     {
         for (short lineNum = 1; lineNum < HEIGHT; lineNum++)
         {
-            screen->writeChar(lineNum, 1, ' ');
+            Screen::writeChar(lineNum, 1, ' ');
         }
-        screen->writeChar(arrowPos, 1, SELECTIONARROWCHAR);
+        Screen::writeChar(arrowPos, 1, SELECTIONARROWCHAR);
     }
-    void loadPage(Screen* screen)
+    void loadPage()
     {
         arrowPos = 1;
-        screen->writeLine(0, getTitle());
+        Screen::writeLine(0, getTitle());
         short lineNum = 1;
-        for (; lineNum <= items.size(); lineNum++) screen->writeLine(lineNum, "   " + items[lineNum - 1]->getName());
-        getBack() == nullptr ? screen->writeLine(lineNum, "   Exit") : screen->writeLine(lineNum, "   Back"); lineNum++;
-        for (; lineNum < HEIGHT; lineNum++) screen->writeLine(lineNum, "");
-        updateArrow(screen);
+        for (; lineNum <= items.size(); lineNum++) Screen::writeLine(lineNum, "   " + items[lineNum - 1]->getName());
+        getBack() == nullptr ? Screen::writeLine(lineNum, "   Exit") : Screen::writeLine(lineNum, "   Back"); lineNum++;
+        for (; lineNum < HEIGHT; lineNum++) Screen::writeLine(lineNum, "");
+        updateArrow();
     }
 };
 
