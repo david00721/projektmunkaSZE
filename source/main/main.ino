@@ -48,7 +48,7 @@ void setup()
 }
 
 void loop()
-{
+{    
   lightValue = analogRead(light);
   motionState = digitalRead(motion);
   
@@ -59,9 +59,9 @@ void loop()
   }
   else if (bulb && (unsigned long)(millis() - lastTriggerTime) > timer) bulb = false;
 
-  std::cout << "Bulb: " << bulb
-            << ", Motion: " << motionState
-            << ", Time: " << (millis() - lastTriggerTime) / 1000
+  std::cout << "Bulb: " << (bulb ? "ON" : "OFF")
+            << ", Motion: " << (motionState ? "YES" : "NO")
+            << ", Time: " << (millis() - lastTriggerTime) / 1000 << " seconds"
             << ", Light: " << lightValue
             << std::endl;
 }
