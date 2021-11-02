@@ -55,7 +55,7 @@ void loop()
   lightValue = analogRead(light);
   motionState = digitalRead(motion);
   
-  if (lightValue <= lightTreshold && motionState)
+  if (lightValue <= lightTreshold || motionState)
   {
     lastTriggerTime = millis();
     if (!bulb) bulb = true;
