@@ -9,7 +9,7 @@
 #define downButton 12
 #define okButton 10
 
-short lightTreshold = 1000;
+short lightTreshold = 200;
 int timer = 10000;
 bool bulb = false;
 unsigned long lastTriggerTime = 0;
