@@ -40,6 +40,9 @@ void setup()
   pinMode(motion, INPUT);
   pinMode(light, INPUT);
   
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+  
   Serial.begin(115200);
   
   mainMenuPage.addItem(&settingsItem);
@@ -56,8 +59,13 @@ void loop()
   {
     lastTriggerTime = millis();
     if (!bulb) bulb = true;
+    digitalWrite(LED_BUILTIN, LOW);
   }
-  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > timer) bulb = false;
+  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > timer)
+  {
+    bulb = false;
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
 
   std::cout << "Bulb: " << (bulb ? "ON" : "OFF")
             << ", Motion: " << (motionState ? "YES" : "NO")
