@@ -12,7 +12,7 @@
 short lightTreshold = 1000;
 int timer = 10000;
 bool bulb = false;
-unsigned long currentTime, lastTriggerTime = 0;
+unsigned long lastTriggerTime = 0;
 int lightValue;
 bool motionState;
 
@@ -51,18 +51,17 @@ void loop()
 {
   lightValue = analogRead(light);
   motionState = digitalRead(motion);
-  currentTime = millis();
   
   if (lightValue <= lightTreshold && motionState)
   {
-    lastTriggerTime = currentTime;
+    lastTriggerTime = millis();
     if (!bulb) bulb = true;
   }
-  else if (bulb && currentTime - lastTriggerTime > timer) bulb = false;
+  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > timer) bulb = false;
 
   std::cout << "Bulb: " << bulb
             << ", Motion: " << motionState
-            << ", Time: " << (currentTime - lastTriggerTime) / 1000
+            << ", Time: " << (millis() - lastTriggerTime) / 1000
             << ", Light: " << lightValue
             << std::endl;
 }
