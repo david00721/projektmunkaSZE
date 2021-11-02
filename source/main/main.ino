@@ -1,18 +1,20 @@
+#include <iostream>
 #include <Wire.h>
 #include "ACROBOTIC_SSD1306.h"
 #include "buttons.h"
+
 #define light A0
 #define motion 13
+#define upButton 2
+#define downButton 12
+#define okButton 10
 
-int upButton = 2;
-int downButton = 12;
-int okButton = 10;
-
-int lsth=600;
-bool lampa=false;
-unsigned long currentTime, prevTime = 0;
+short lightTreshold = 1000;
 int timer = 10000;
-
+bool bulb = false;
+unsigned long currentTime, lastTriggerTime = 0;
+int lightValue;
+bool motionState;
 
 MenuPage mainMenuPage = MenuPage("MAIN MENU");
 MenuPage settingsPage = MenuPage("SETTINGS", &mainMenuPage);
@@ -23,12 +25,8 @@ Item settingsItem = Item("Settings", &settingsPage);
 Item monitoringItem = Item("Monitoring", &monitoringPage);
 Item logsItem = Item("Logs", &monitoringPage);
 
-//mainMenuPage.addItem(&settingsItem);
-//mainMenuPage.addItem(&monitoringItem);
-//mainMenuPage.addItem(&logsItem);
-
 Screen screen;
-bool firstrun=true;
+
 void setup()
 {
   Wire.begin();
@@ -39,42 +37,32 @@ void setup()
   pinMode(downButton, INPUT);
   pinMode(okButton, INPUT);
 
-    pinMode(motion, INPUT); // declare sensor as input
-    //pinMode(light, INPUT);
+  pinMode(motion, INPUT);
+  pinMode(light, INPUT);
   
   Serial.begin(115200);
+  
+  mainMenuPage.addItem(&settingsItem);
+  mainMenuPage.addItem(&monitoringItem);
+  mainMenuPage.addItem(&logsItem);
 }
 
 void loop()
 {
-  if(firstrun)
-  {
-    delay(5000);
-    firstrun=false;
-  }
-   int light_value = analogRead(light);
-   int state = digitalRead(motion);
-
-  /*
-  int okButtonState = digitalRead(okButton);
-  if (okButtonState == 1)
-  {
-    mainMenuPage.loadPage(&screen);
-  }
-  */
+  lightValue = analogRead(light);
+  motionState = digitalRead(motion);
   currentTime = millis();
-  if(light_value>=lsth && state==1){
-    prevTime = currentTime;
-    if(!lampa)lampa=true;
+  
+  if (lightValue <= lightTreshold && motionState)
+  {
+    lastTriggerTime = currentTime;
+    if (!bulb) bulb = true;
   }
-  else if(lampa && currentTime - prevTime > timer) lampa=false;
+  else if (bulb && currentTime - lastTriggerTime > timer) bulb = false;
 
-  
-  if(lampa)Serial.println("on");
-  else Serial.println("off");
-  
-
-  Serial.println(light_value);
-  Serial.println(state);
-  delay(2000);
+  std::cout << "Bulb: " << bulb
+            << ", Motion: " << motionState
+            << ", Time: " << (currentTime - lastTriggerTime) / 1000
+            << ", Light: " << lightValue
+            << std::endl;
 }
