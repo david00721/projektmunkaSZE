@@ -58,7 +58,7 @@ void loop()
   if (lightValue <= lightTreshold || motionState)
   {
     lastTriggerTime = millis();
-    if (motionState) lastTriggerTime -= 3000;
+    if (motionState) lastTriggerTime -= 1043;
     if (!bulb) bulb = true;
     digitalWrite(LED_BUILTIN, LOW);
   }
