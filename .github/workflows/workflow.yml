@@ -33,6 +33,7 @@ jobs:
                 mv refman.pdf ../Doxygen-dokumentáció.pdf
                 cd ../
                 rm -r latex
+                mv Doxygen-dokumentáció.pdf ../ 
                 cd ../
         name: Generating documentation
       - uses: actions/upload-artifact@master
