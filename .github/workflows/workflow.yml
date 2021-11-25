@@ -27,7 +27,7 @@ jobs:
       - run: |
                 sudo apt update
                 sudo apt install -y doxygen graphviz texlive texlive-latex-extra
-                doxygen -g doxconf                
+                doxygen doxconf                
                 cd DOCS/latex
                 make
                 mv refman.pdf ../Doxygen dokumentáció.pdf
