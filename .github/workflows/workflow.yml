@@ -1,0 +1,48 @@
+name: Workflow for documentation
+
+on:
+  push
+
+# jobs:
+#   build_and_test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Build the project
+#         run: g++ -std=c++17 -g 
+  jobs:  
+    deploy:
+      name: Deploy to github pages
+      runs-on: ubuntu-latest
+      steps:
+        - run: sudo apt-get install doxygen graphviz
+        - uses: actions/checkout@v2
+        - run: doxygen doxconf
+        - name: Push git subdir as branch
+          uses: s0/git-publish-subdir-action@v2.4.0
+          env:
+            REPO: self
+            BRANCH: gh-pages
+            FOLDER: DOCS/html
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    doxytest:
+      name: Creating documentation
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - run: |
+                  sudo apt update
+                  sudo apt install -y doxygen graphviz texlive texlive-latex-extra
+                  doxygen -g doxconf                
+                  cd DOCS/latex
+                  make
+                  mv refman.pdf ../Doxygen dokumentáció.pdf
+                  cd ../
+                  rm -r latex
+                  cd ../
+          name: Generating documentation
+        - uses: actions/upload-artifact@master
+          with:
+            name: doxygen-latest-documentation
+            path: DOCS/
