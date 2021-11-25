@@ -2,14 +2,7 @@ name: Workflow for documentation
 
 on:
   push
-
-# jobs:
-#   build_and_test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Build the project
-#         run: g++ -std=c++17 -g 
+  
   jobs:  
     deploy:
       name: Deploy to github pages
