@@ -121,7 +121,7 @@ void loop()
   {
     lastTriggerTime = millis(); //<store motion detection time
     if (lastTriggerTime >= 1043) lastTriggerTime -= 1043; //<compensation for continuous sensor signal
-    if (lightValue >= lightTresholdItem.getValue()) //<if dark (bulb is off, otherwise should not be dark)
+    if (lightValue <= lightTresholdItem.getValue()) //<if dark (bulb is off, otherwise should not be dark)
     {
       bulb = true;
       digitalWrite(LED_BUILTIN, LOW);
