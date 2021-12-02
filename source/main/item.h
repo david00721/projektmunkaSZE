@@ -6,6 +6,10 @@
 
 class Page;
 
+/**
+*This class can be a part of a page. 
+*It has a name and a pointer to the page it belongs to.
+*/
 class Item
 {
 private:
@@ -17,13 +21,18 @@ public:
     Page* getLink() { return link; }
 };
 
+
+/**
+*This class is to store values that can be changed throught the interface.
+*It has an integer value and a unit text.
+*/
 class ValueItem : public Item
 {
 private:
     short value;
     std::string unit;
 public:
-    ValueItem(std::string _name, Page* _link, short _value, std::string _unit) :
+    ValueItem(std::string _name, Page* _link, short _value, std::string _unit = "") :
         Item(_name, _link), value(_value), unit(_unit) {}
     short getValue() { return value; }
     void setValue(short _value) { value = _value; }

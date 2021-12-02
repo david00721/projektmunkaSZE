@@ -3,30 +3,35 @@
 
 #include "page.h"
 
-void openAction(Page* page, Screen* screen)
-{
-	page == nullptr ? screen->clear() : page->loadPage(screen);
-	screen->print();
-}
-
-void upButtonAction(Page* page, Screen* screen)
+/**
+*This function initiates changes associated to the 'up' button. These are type dependent changes, both internal and interface modifications.
+*@param Pointer to the page to be affected.
+*/
+void upButtonAction(Page* page)
 {
 	page->move(true);
-	page->updateArrow(screen);
-	screen->print();
+	page->updateArrow();
 }
 
-void downButtonAction(Page* page, Screen* screen)
+/**
+*This function initiates changes associated to the 'down' button. These are type dependent changes, both internal and interface modifications.
+*@param Pointer to the page to be affected.
+*/
+void downButtonAction(Page* page)
 {
 	page->move(false);
-	page->updateArrow(screen);
-	screen->print();
+	page->updateArrow();
 }
 
-Page* okButtonAction(Page* page, Screen* screen)
+/**
+*This function intitiates changes associated to the 'ok' button. These are type dependent changes, both internal and interface modifications.
+*@param Pointer to the page to be affected.
+*@return Pointer to the page that the 'ok' action leads to.
+*/
+Page* okButtonAction(Page* page)
 {
 	page = page->ok();
-	openAction(page, screen);
+	page == nullptr ? Screen::clear() : page->loadPage();
 	return page;
 }
 
