@@ -1,7 +1,6 @@
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
 
-#include <iostream>
 #include <Wire.h>
 #include "ACROBOTIC_SSD1306.h"
 

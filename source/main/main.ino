@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Wire.h>
 #include "ACROBOTIC_SSD1306.h"
-#include "buttons.h"
+#include "screen.h"
 
 ///GPIO names
 #define light A0
@@ -11,34 +11,11 @@
 #define okButton 14
 
 ///algorythm variables
-short screenTimer = 10;
+short screenTimer = 10, bulbTimer = 10, lightTreshold = 512;
 bool bulb = false, powerSaveMode = true;
 unsigned long lastTriggerTime = 0, buttonPressTime = 0;
-int lightValue;
+short lightValue;
 bool motionState;
-
-///menu pages
-MenuPage mainMenuPage = MenuPage("MAIN MENU");
-MenuPage settingsPage = MenuPage("SETTINGS", &mainMenuPage);
-MenuPage monitoringPage = MenuPage("MONITORING", &mainMenuPage);
-MenuPage logsPage = MenuPage("LOGS", &mainMenuPage);
-
-///main menu items
-Item settingsItem = Item("Settings", &settingsPage);
-Item monitoringItem = Item("Monitoring", &monitoringPage);
-Item logsItem = Item("Logs", &monitoringPage);
-
-///settings menu pages
-SliderPage bulbTimerPage = SliderPage("BULB TIMER", &settingsPage, Spectrum(5, 100, 5));
-TextOptsPage lightTresholdPage = TextOptsPage("LIGHT TRESHOLD", &settingsPage);
-
-///settings menu items
-ValueItem bulbTimerItem = ValueItem("Bulb timer", &bulbTimerPage, 10, " sec");
-ValueItem lightTresholdItem = ValueItem("Light treshold", &lightTresholdPage, 256);
-
-///page pointers
-Page* landingPage = &mainMenuPage;
-Page* currentPage = landingPage;
 
 ///setup
 void setup()
@@ -59,20 +36,6 @@ void setup()
 
   ///setting baud rate
   Serial.begin(115200);
-
-  ///main menu fill
-  mainMenuPage.addItem(&settingsItem);
-  mainMenuPage.addItem(&monitoringItem);
-  mainMenuPage.addItem(&logsItem);
-
-  ///settings menu fill
-  settingsPage.addItem(&bulbTimerItem);
-  settingsPage.addItem(&lightTresholdItem);
-
-  ///light treshold options fill
-  lightTresholdPage.addOpt("Low light", 768);
-  lightTresholdPage.addOpt("Medium light", 512);
-  lightTresholdPage.addOpt("High light", 256);
 }
 
 void loop()
@@ -86,14 +49,14 @@ void loop()
   {
     buttonPressTime = millis(); //<store up button press time
     while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
-    upButtonAction(currentPage);
+    //DO DOWN BUTTON STUFF
     powerSaveMode = false;
   }
   if (digitalRead(downButton) && !powerSaveMode) //<if down button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store up button press time
     while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
-    downButtonAction(currentPage);
+    //DO OK BUTTON STUFF
     powerSaveMode = false;
   }
   if (digitalRead(okButton)) //<if ok button is pressed
@@ -102,8 +65,7 @@ void loop()
     while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
     if (powerSaveMode) //<if screen is off
     {
-      landingPage->loadPage(); //<load landing page
-      currentPage = landingPage; //<set landing page as current page
+      //load MAIN MENU
     }
     else currentPage = okButtonAction(currentPage); //<else (if screen is on), execute normal 'ok' button action
     powerSaveMode = false;
@@ -121,7 +83,7 @@ void loop()
   {
     lastTriggerTime = millis(); //<store motion detection time
     if (lastTriggerTime >= 1043) lastTriggerTime -= 1043; //<compensation for continuous sensor signal
-    if (lightValue >= lightTresholdItem.getValue()) //<if dark (bulb is off, otherwise should not be dark)
+    if (lightValue >= lightTreshold) //<if dark (bulb is off, otherwise should not be dark)
     {
       bulb = true;
       digitalWrite(LED_BUILTIN, LOW);
