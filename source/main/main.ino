@@ -50,18 +50,18 @@ void setup()
   mainMenuPage.addOpt("Light trsh");
   mainMenuPage.addOpt("Screen timer");
   mainMenuPage.addOpt("Monitoring");
-  
+
   lightTresholdPage.addOpt("Very low light", 1000);
   lightTresholdPage.addOpt("Low light", 800);
   lightTresholdPage.addOpt("Medium light", 500);
   lightTresholdPage.addOpt("High light", 200);
   lightTresholdPage.addOpt("Very high light", 10);
-  
+
   bulbTimerPage.addOpt("5 seconds", 5);
   bulbTimerPage.addOpt("10 seconds", 10);
   bulbTimerPage.addOpt("30 seconds", 30);
   bulbTimerPage.addOpt("1 minute", 60);
-  
+
   screenTimerPage.addOpt("5 seconds", 5);
   screenTimerPage.addOpt("10 seconds", 10);
   screenTimerPage.addOpt("30 seconds", 30);
@@ -98,21 +98,21 @@ void loop()
   if (digitalRead(upButton) && !powerSaveMode) //<if up button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store up button press time
-    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
+    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed and still pressing
     currentPage->moveArrow(true);
     powerSaveMode = false;
   }
   if (digitalRead(downButton) && !powerSaveMode) //<if down button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store down button press time
-    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
+    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed and still pressing
     currentPage->moveArrow(false);
     powerSaveMode = false;
   }
   if (digitalRead(okButton)) //<if ok button is pressed
   {
     buttonPressTime = millis(); //<store ok button press time
-    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
+    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed and still pressing
     if (powerSaveMode) powerSaveMode = false; //<if screen is off, turn it on
     else
     {
@@ -124,21 +124,21 @@ void loop()
           case 1: currentPage = &lightTresholdPage; break;
           case 2: currentPage = &screenTimerPage; break;
           case 3: currentPage = &monitoringPage; break;
-        }        
+        }
       }
       else if (currentPage == &bulbTimerPage)
       {
-        bulbTimer = currentPage->getOptValue(currentPage->getArrowPos());
+        bulbTimer = currentPage->getOptValue(currentPage->getArrowPos()); //<assign value of selected option to the variable
         currentPage = &mainMenuPage;
       }
       else if (currentPage == &lightTresholdPage)
       {
-        lightTreshold = currentPage->getOptValue(currentPage->getArrowPos());
+        lightTreshold = currentPage->getOptValue(currentPage->getArrowPos()); //<assign value of selected option to the variable
         currentPage == &mainMenuPage;
       }
       else if (currentPage == &screenTimerPage)
       {
-        screenTimer = currentPage->getOptValue(currentPage->getArrowPos());
+        screenTimer = currentPage->getOptValue(currentPage->getArrowPos()); //<assign value of selected option to the variable
         currentPage = &mainMenuPage;
       }
       else if (currentPage == &monitoringPage)
@@ -150,14 +150,14 @@ void loop()
   }
 
   ///refresh if monitoring page
-  if (currentPage == &monitoringPage && (unsigned long)(millis() - monitoringRefreshTime) > monitoringRefreshRate * 1000)
+  if (currentPage == &monitoringPage && (unsigned long)(millis() - monitoringRefreshTime) > monitoringRefreshRate * 1000) //<if monitoring page is active and enough time has elapsed since the last refresh
   {
     currentPage->refreshPage();
     monitoringRefreshTime = millis();
   }
 
   ///powerSaveMode activation
-  if (!powerSaveMode && (unsigned long)(millis() - buttonPressTime) > screenTimer * 1000) //<if screen is on and enough seconds have elapsed from the last button press
+  if (!powerSaveMode && (unsigned long)(millis() - buttonPressTime) > screenTimer * 1000) //<if screen is on and enough time has elapsed since the last button press
   {
     powerSaveMode = true;
     Screen::clear();
@@ -178,7 +178,7 @@ void loop()
   }
 
   ///turn off bulb
-  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimer * 1000) //<else if bulb is on and enough seconds have elapsed from the last trigger
+  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimer * 1000) //<else if bulb is on and enough time has elapsed since the last trigger
   {
     bulb = false;
     digitalWrite(LED_BUILTIN, HIGH);
