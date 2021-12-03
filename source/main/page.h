@@ -15,6 +15,7 @@ public:
   virtual void moveArrow(bool) {}
   virtual void printPage() {}
   virtual short getOptValue(short pos) {}
+  virtual void refreshPage() {}
 };
 
 class MenuPage : public Page
@@ -70,10 +71,19 @@ public:
   {
     Screen::clear();
     Screen::writeLine(0, title);
-    *motionStatePointer ? Screen::writeLine(1, " Motion: YES") : Screen::writeLine(1, " Motion: NO");
-    Screen::writeLine(2, " Timer: " + std::to_string(*screenTimerPointer) + " sec");
-    Screen::writeLine(3, " Light: " + std::to_string(*lightValuePointer));
+    Screen::writeLine(1, " Motion:");
+    *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
+    Screen::writeLine(3, " Timer:");
+    Screen::writeLine(4, "  " + std::to_string(*screenTimerPointer) + " sec");
+    Screen::writeLine(5, " Light:");
+    Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
     Screen::writeLine(HEIGHT - 1, std::string(WIDTH - std::string("> Back").length(), ' ') + "> Back");
+  }
+  void refreshPage()
+  {
+    *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
+    Screen::writeLine(4, "  " + std::to_string(*screenTimerPointer) + " sec");
+    Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
   }
 };
 MonitoringPage* MonitoringPage::instance = 0;

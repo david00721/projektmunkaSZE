@@ -12,7 +12,7 @@
 #define okButton 14
 
 ///constant algorythm variables
-constexpr short buttonSkipTimer = 0.5, monitoringRefreshRate = 2;
+constexpr short monitoringRefreshRate = 2;
 
 ///algorythm variables
 short screenTimer, bulbTimer, lightTreshold;
@@ -78,7 +78,7 @@ void setup()
   bulbTimerPage.setArrowPos(1);
   bulbTimer = bulbTimerPage.getOptValue(bulbTimerPage.getArrowPos());
 
-  screenTimerPage.setArrowPos(1);
+  screenTimerPage.setArrowPos(2);
   screenTimer = screenTimerPage.getOptValue(screenTimerPage.getArrowPos());
 
   ///setting baud rate
@@ -98,64 +98,62 @@ void loop()
   if (digitalRead(upButton) && !powerSaveMode) //<if up button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store up button press time
-    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
+    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
     currentPage->moveArrow(true);
     powerSaveMode = false;
   }
   if (digitalRead(downButton) && !powerSaveMode) //<if down button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store down button press time
-    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
+    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
     currentPage->moveArrow(false);
     powerSaveMode = false;
   }
   if (digitalRead(okButton)) //<if ok button is pressed
   {
     buttonPressTime = millis(); //<store ok button press time
-    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
-    if (powerSaveMode) //<if screen is off
+    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
+    if (powerSaveMode) powerSaveMode = false; //<if screen is off, turn it on
+    else
     {
-      currentPage = landingPage;
-      currentPage->setArrowPos(0);
-    }
-    else if (currentPage == &mainMenuPage)
-    {
-      switch (currentPage->getArrowPos())
+      if (currentPage == &mainMenuPage)
       {
-        case 0: currentPage = &bulbTimerPage; break;
-        case 1: currentPage = &lightTresholdPage; break;
-        case 2: currentPage = &screenTimerPage; break;
-        case 3: currentPage = &monitoringPage; break;
-      }        
-    }
-    else if (currentPage == &bulbTimerPage)
-    {
-      bulbTimer = currentPage->getOptValue(currentPage->getArrowPos());
-      currentPage = &mainMenuPage;
-    }
-    else if (currentPage == &lightTresholdPage)
-    {
-      lightTreshold = currentPage->getOptValue(currentPage->getArrowPos());
-      currentPage == &mainMenuPage;
-    }
-    else if (currentPage == &screenTimerPage)
-    {
-      screenTimer = currentPage->getOptValue(currentPage->getArrowPos());
-      currentPage = &mainMenuPage;
-    }
-    else if (currentPage == &monitoringPage)
-    {
-      currentPage = &mainMenuPage;
+        switch (currentPage->getArrowPos())
+        {
+          case 0: currentPage = &bulbTimerPage; break;
+          case 1: currentPage = &lightTresholdPage; break;
+          case 2: currentPage = &screenTimerPage; break;
+          case 3: currentPage = &monitoringPage; break;
+        }        
+      }
+      else if (currentPage == &bulbTimerPage)
+      {
+        bulbTimer = currentPage->getOptValue(currentPage->getArrowPos());
+        currentPage = &mainMenuPage;
+      }
+      else if (currentPage == &lightTresholdPage)
+      {
+        lightTreshold = currentPage->getOptValue(currentPage->getArrowPos());
+        currentPage == &mainMenuPage;
+      }
+      else if (currentPage == &screenTimerPage)
+      {
+        screenTimer = currentPage->getOptValue(currentPage->getArrowPos());
+        currentPage = &mainMenuPage;
+      }
+      else if (currentPage == &monitoringPage)
+      {
+        currentPage = &mainMenuPage;
+      }
     }
     currentPage->printPage();
-    powerSaveMode = false;
   }
 
-  ///update if monitoring page
+  ///refresh if monitoring page
   if (currentPage == &monitoringPage && (unsigned long)(millis() - monitoringRefreshTime) > monitoringRefreshRate * 1000)
   {
-    currentPage->printPage();
-    monitoringRefreshTime = millis(); 
+    currentPage->refreshPage();
+    monitoringRefreshTime = millis();
   }
 
   ///powerSaveMode activation
@@ -163,6 +161,8 @@ void loop()
   {
     powerSaveMode = true;
     Screen::clear();
+    currentPage = landingPage;
+    currentPage->setArrowPos(0);
   }
 
   ///trigger bulb
