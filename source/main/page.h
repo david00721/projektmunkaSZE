@@ -64,23 +64,21 @@ public:
   void setMotionStatePointer(bool* _motionStatePointer) { motionStatePointer = _motionStatePointer; }
   void setLastTriggerTimePointer(unsigned long* _lastTriggerTimePointer) { lastTriggerTimePointer = _lastTriggerTimePointer; }
   void setLightValuePointer(short* _lightValuePointer) { lightValuePointer = _lightValuePointer; }
-  void printPage()
-  {
-    Screen::clear();
-    Screen::writeLine(0, title);
-    Screen::writeLine(1, " Motion:");
-    *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
-    Screen::writeLine(3, " Timer:");
-    Screen::writeLine(4, "  " + std::to_string((unsigned long)(millis() - *lastTriggerTimePointer) / 1000) + " sec");
-    Screen::writeLine(5, " Light:");
-    Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
-    Screen::writeLine(HEIGHT - 1, std::string(WIDTH - std::string("> Back").length(), ' ') + "> Back");
-  }
   void refreshPage()
   {
     *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
     Screen::writeLine(4, "  " + std::to_string((unsigned long)(millis() - *lastTriggerTimePointer) / 1000) + " sec");
     Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
+  }
+  void printPage()
+  {
+    Screen::clear();
+    Screen::writeLine(0, title);
+    Screen::writeLine(1, " Motion:");
+    Screen::writeLine(3, " Timer:");
+    Screen::writeLine(5, " Light:");
+    Screen::writeLine(HEIGHT - 1, std::string(WIDTH - std::string("> Back").length(), ' ') + "> Back");
+    refreshPage();
   }
 };
 MonitoringPage* MonitoringPage::instance = 0;
