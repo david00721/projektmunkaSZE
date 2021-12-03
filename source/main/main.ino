@@ -67,7 +67,7 @@ void setup()
   screenTimerPage.addOpt("30 seconds", 30);
   screenTimerPage.addOpt("1 minute", 60);
 
-  monitoringPage.setScreenTimerPointer(&lastTriggerTime);
+  monitoringPage.setLastTriggerTimePointer(&lastTriggerTime);
   monitoringPage.setLightValuePointer(&lightValue);
   monitoringPage.setMotionStatePointer(&motionState);
 
