@@ -31,18 +31,18 @@ public:
   void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
   void moveArrow(bool upDirection)
   {
-    Screen::writeChar(arrowPos + 1, 1, ' ');
+    Screen::writeLine(arrowPos + 1, "   " + opts[arrowPos].first);
     if (upDirection && arrowPos == 0) arrowPos = opts.size() - 1;
     else if (!upDirection && arrowPos == opts.size() - 1) arrowPos = 0;
     else upDirection ? arrowPos-- : arrowPos++;
-    Screen::writeChar(arrowPos + 1, 1, '>');
+    Screen::writeLine(arrowPos + 1, " > " + opts[arrowPos].first);
   }
   void printPage()
   {
     Screen::writeLine(0, title);
     for (short line = 1; line <= opts.size(); line++) Screen::writeLine(line, "   " + opts[line - 1].first);
     for (short line = opts.size() + 1; line < HEIGHT; line++) Screen::writeLine(line, "");
-    Screen::writeChar(arrowPos + 1, 1, '>');
+    Screen::writeLine(arrowPos + 1, " > " + opts[arrowPos].first);
   }
 };
 

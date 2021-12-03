@@ -23,18 +23,6 @@ public:
 		oled.setTextXY(lineNum, 0);
     oled.putString(input.c_str());
 	}
-
-  /**
-  *This function replaces the character in a specific position.
-  *@param Number of the line.
-  *@param Number of the colomn.
-  *@param Character to write.
-  */
-  static void writeChar(short lineNum, short colomnNum, char character)
-  {
-    oled.setTextXY(lineNum, colomnNum);
-    oled.putString(&character);
-  }
   
   /**
   *This function clears the screen. All characters will disappear.
