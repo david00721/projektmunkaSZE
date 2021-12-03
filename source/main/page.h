@@ -74,7 +74,7 @@ public:
     Screen::writeLine(1, " Motion:");
     *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
     Screen::writeLine(3, " Timer:");
-    Screen::writeLine(4, "  " + std::to_string((unsigned long)(millis() - *lastTriggerTime) / 1000) + " sec");
+    Screen::writeLine(4, "  " + std::to_string((unsigned long)(millis() - *lastTriggerTimePointer) / 1000) + " sec");
     Screen::writeLine(5, " Light:");
     Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
     Screen::writeLine(HEIGHT - 1, std::string(WIDTH - std::string("> Back").length(), ' ') + "> Back");
