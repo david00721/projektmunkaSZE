@@ -62,7 +62,7 @@ protected:
 public:
   static MonitoringPage getInstance()
   {
-    if(!instance) instance = new MonitoringPage("MONITORING PAGE");
+    if(!instance) instance = new MonitoringPage("MONITORING");
     return *instance;
   }
   void setMotionStatePointer(bool* _motionStatePointer) { motionStatePointer = _motionStatePointer; }
@@ -83,7 +83,7 @@ public:
   void refreshPage()
   {
     *motionStatePointer ? Screen::writeLine(2, "  YES") : Screen::writeLine(2, "  NO");
-    Screen::writeLine(4, "  " + std::to_string(*lastTriggerTimePointer) + " sec");
+    Screen::writeLine(4, "  " + std::to_string((unsigned long)(millis() - *lastTriggerTimePointer) / 1000) + " sec");
     Screen::writeLine(6, "  " + std::to_string(*lightValuePointer));
   }
 };
