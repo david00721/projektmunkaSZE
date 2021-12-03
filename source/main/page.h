@@ -23,11 +23,6 @@ class MenuPage : public Page
 private:
   std::vector<std::pair<std::string, short>> opts;
   short arrowPos = 0;
-  void updateArrow()
-  {
-    for (short line = 1; line <= opts.size(); line++) Screen::writeChar(line, 1, ' ');
-    Screen::writeChar(arrowPos + 1, 1, '>');
-  }
 public:
   MenuPage(std::string title) : Page(title) {}
   void addOpt(std::string _text, short _value = 0) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
@@ -36,10 +31,11 @@ public:
   void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
   void moveArrow(bool upDirection)
   {
+    Screen::writeChar(arrowPos + 1, 1, ' ');
     if (upDirection && arrowPos == 0) arrowPos = opts.size() - 1;
     else if (!upDirection && arrowPos == opts.size() - 1) arrowPos = 0;
     else upDirection ? arrowPos-- : arrowPos++;
-    updateArrow();
+    Screen::writeChar(arrowPos + 1, 1, '>');
   }
   void printPage()
   {
