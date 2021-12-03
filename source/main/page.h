@@ -54,7 +54,7 @@ class MonitoringPage : public Page //singleton
 private:
   MonitoringPage(std::string title) : Page(title) {}
   bool* motionStatePointer;
-  unsigned long* lastTriggerTimePointer;
+  unsigned long* screenTimerPointer;
   short* lightValuePointer;
 protected:
   static MonitoringPage* instance;
