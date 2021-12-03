@@ -5,9 +5,6 @@
 #include "ACROBOTIC_SSD1306.h"
 
 constexpr short HEIGHT = 8, WIDTH = 16;
-constexpr char SELECTIONARROWCHAR = '>';
-constexpr char SLIDERARROWCHAR = 'V';
-constexpr char HORIZONTALLINECHAR = '=';
 
 /**
 *This class contains functions to use the screen easily.

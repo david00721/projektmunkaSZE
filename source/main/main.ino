@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include "ACROBOTIC_SSD1306.h"
 #include "screen.h"
+#include "page.h"
 
 ///GPIO names
 #define light A0
@@ -33,6 +34,38 @@ void setup()
   pinMode(light, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
+
+  ///creating pages
+  MenuPage mainMenuPage = MenuPage("MAIN MENU");
+  mainMenuPage.addOpt("Bulb timer");
+  mainMenuPage.addOpt("Light trsh");
+  mainMenuPage.addOpt("Screen timer");
+  mainMenuPage.addOpt("Monitoring");
+  
+  MenuPage lightTresholdPage = MenuPage("LIGHT TRSH");
+  lightTresholdPage.addOpt("Very low light", 1000);
+  lightTresholdPage.addOpt("Low light", 800);
+  lightTresholdPage.addOpt("Medium light", 500);
+  lightTresholdPage.addOpt("High light", 200);
+  lightTresholdPage.addOpt("Very high light", 10);
+  
+  MenuPage bulbTimerPage = MenuPage("BULB TIMER");
+  bulbTimerPage.addOpt("5 seconds", 5);
+  bulbTimerPage.addOpt("10 seconds", 10);
+  bulbTimerPage.addOpt("30 seconds", 30);
+  bulbTimerPage.addOpt("1 minute", 60);
+  
+  MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
+  screenTimerPage.addOpt("5 seconds", 5);
+  screenTimerPage.addOpt("10 seconds", 10);
+  screenTimerPage.addOpt("30 seconds", 30);
+  screenTimerPage.addOpt("1 minute", 60);
+
+  MonitoringPage* monitoringPagePointer = monitoringPagePointer->getInstance();
+  MonitoringPage monitoringPage = *monitoringPagePointer;
+  monitoringPage.setScreenTimerPointer(&screenTimer);
+  monitoringPage.setLightValuePointer(&lightValue);
+  monitoringPage.setMotionStatePointer(&motionState);
 
   ///setting baud rate
   Serial.begin(115200);
@@ -67,7 +100,7 @@ void loop()
     {
       //load MAIN MENU
     }
-    else currentPage = okButtonAction(currentPage); //<else (if screen is on), execute normal 'ok' button action
+    //change page
     powerSaveMode = false;
   }
 
@@ -91,7 +124,7 @@ void loop()
   }
 
   ///turn off bulb
-  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimerItem.getValue() * 1000) //<else if bulb is on and enough seconds have elapsed from the last trigger
+  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimer * 1000) //<else if bulb is on and enough seconds have elapsed from the last trigger
   {
     bulb = false;
     digitalWrite(LED_BUILTIN, HIGH);
