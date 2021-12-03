@@ -10,8 +10,11 @@ protected:
   std::string title;
 public:
   Page(std::string title) : title(title) {}
+  virtual short getArrowPos() {}
+  virtual void setArrowPos(short) {}
   virtual void moveArrow(bool) {}
   virtual void printPage() {}
+  virtual short getOptValue(short pos) {}
 };
 
 class MenuPage : public Page
@@ -28,6 +31,8 @@ public:
   MenuPage(std::string title) : Page(title) {}
   void addOpt(std::string _text, short _value = 0) { opts.push_back(std::pair<std::string, short>(_text, _value)); }
   short getOptValue(short pos) { return opts[pos].second; }
+  short getArrowPos() { return arrowPos; }
+  void setArrowPos(short _arrowPos) { arrowPos = _arrowPos; }
   void moveArrow(bool upDirection)
   {
     if (upDirection && arrowPos == 0) arrowPos = opts.size() - 1;
@@ -53,15 +58,14 @@ private:
 protected:
   static MonitoringPage* instance;
 public:
-  static MonitoringPage* getInstance()
+  static MonitoringPage getInstance()
   {
     if(!instance) instance = new MonitoringPage("MONITORING PAGE");
-    return instance;
+    return *instance;
   }
   void setMotionStatePointer(bool* _motionStatePointer) { motionStatePointer = _motionStatePointer; }
   void setScreenTimerPointer(short* _screenTimerPointer) { screenTimerPointer = _screenTimerPointer; }
   void setLightValuePointer(short* _lightValuePointer) { lightValuePointer = _lightValuePointer; }
-  void moveArrow(bool upDirection) {}
   void printPage()
   {
     Screen::clear();

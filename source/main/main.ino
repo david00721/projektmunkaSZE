@@ -11,12 +11,22 @@
 #define downButton 13
 #define okButton 14
 
+///constant algorythm variables
+constexpr short buttonSkipTimer = 0.5, monitoringRefreshRate = 2;
+
 ///algorythm variables
-short screenTimer = 10, bulbTimer = 10, lightTreshold = 512;
+short screenTimer, bulbTimer, lightTreshold;
 bool bulb = false, powerSaveMode = true;
-unsigned long lastTriggerTime = 0, buttonPressTime = 0;
+unsigned long lastTriggerTime = 0, buttonPressTime = 0, monitoringRefreshTime = 0;
 short lightValue;
 bool motionState;
+
+//creating pages
+MenuPage mainMenuPage = MenuPage("MAIN MENU");
+MenuPage lightTresholdPage = MenuPage("LIGHT TRSH");
+MenuPage bulbTimerPage = MenuPage("BULB TIMER");
+MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
+MonitoringPage monitoringPage = monitoringPage.getInstance();
 
 ///setup
 void setup()
@@ -35,41 +45,48 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
-  ///creating pages
-  MenuPage mainMenuPage = MenuPage("MAIN MENU");
+  ///filling pages
   mainMenuPage.addOpt("Bulb timer");
   mainMenuPage.addOpt("Light trsh");
   mainMenuPage.addOpt("Screen timer");
   mainMenuPage.addOpt("Monitoring");
   
-  MenuPage lightTresholdPage = MenuPage("LIGHT TRSH");
   lightTresholdPage.addOpt("Very low light", 1000);
   lightTresholdPage.addOpt("Low light", 800);
   lightTresholdPage.addOpt("Medium light", 500);
   lightTresholdPage.addOpt("High light", 200);
   lightTresholdPage.addOpt("Very high light", 10);
   
-  MenuPage bulbTimerPage = MenuPage("BULB TIMER");
   bulbTimerPage.addOpt("5 seconds", 5);
   bulbTimerPage.addOpt("10 seconds", 10);
   bulbTimerPage.addOpt("30 seconds", 30);
   bulbTimerPage.addOpt("1 minute", 60);
   
-  MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
   screenTimerPage.addOpt("5 seconds", 5);
   screenTimerPage.addOpt("10 seconds", 10);
   screenTimerPage.addOpt("30 seconds", 30);
   screenTimerPage.addOpt("1 minute", 60);
 
-  MonitoringPage* monitoringPagePointer = monitoringPagePointer->getInstance();
-  MonitoringPage monitoringPage = *monitoringPagePointer;
   monitoringPage.setScreenTimerPointer(&screenTimer);
   monitoringPage.setLightValuePointer(&lightValue);
   monitoringPage.setMotionStatePointer(&motionState);
 
+  ///assigning values from page options to optional values
+  lightTresholdPage.setArrowPos(2);
+  lightTreshold = lightTresholdPage.getOptValue(lightTresholdPage.getArrowPos());
+
+  bulbTimerPage.setArrowPos(1);
+  bulbTimer = bulbTimerPage.getOptValue(bulbTimerPage.getArrowPos());
+
+  screenTimerPage.setArrowPos(1);
+  screenTimer = screenTimerPage.getOptValue(screenTimerPage.getArrowPos());
+
   ///setting baud rate
   Serial.begin(115200);
 }
+
+Page* landingPage = &mainMenuPage;
+Page* currentPage = landingPage;
 
 void loop()
 {
@@ -81,27 +98,64 @@ void loop()
   if (digitalRead(upButton) && !powerSaveMode) //<if up button is pressed and screen is on
   {
     buttonPressTime = millis(); //<store up button press time
-    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
-    //DO DOWN BUTTON STUFF
+    while (digitalRead(upButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
+    currentPage->moveArrow(true);
     powerSaveMode = false;
   }
   if (digitalRead(downButton) && !powerSaveMode) //<if down button is pressed and screen is on
   {
-    buttonPressTime = millis(); //<store up button press time
-    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
-    //DO OK BUTTON STUFF
+    buttonPressTime = millis(); //<store down button press time
+    while (digitalRead(downButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
+    currentPage->moveArrow(false);
     powerSaveMode = false;
   }
   if (digitalRead(okButton)) //<if ok button is pressed
   {
-    buttonPressTime = millis(); //<store up button press time
-    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < 1000) {} //<wait until releasing button or one sec has elapsed
+    buttonPressTime = millis(); //<store ok button press time
+    while (digitalRead(okButton) && (unsigned long)(millis() - buttonPressTime) < (buttonSkipTimer * 1000)) {} //<wait until releasing button or one sec has elapsed
     if (powerSaveMode) //<if screen is off
     {
-      //load MAIN MENU
+      currentPage = landingPage;
+      currentPage->setArrowPos(0);
     }
-    //change page
+    else if (currentPage == &mainMenuPage)
+    {
+      switch (currentPage->getArrowPos())
+      {
+        case 0: currentPage = &bulbTimerPage; break;
+        case 1: currentPage = &lightTresholdPage; break;
+        case 2: currentPage = &screenTimerPage; break;
+        case 3: currentPage = &monitoringPage; break;
+      }        
+    }
+    else if (currentPage == &bulbTimerPage)
+    {
+      bulbTimer = currentPage->getOptValue(currentPage->getArrowPos());
+      currentPage = &mainMenuPage;
+    }
+    else if (currentPage == &lightTresholdPage)
+    {
+      lightTreshold = currentPage->getOptValue(currentPage->getArrowPos());
+      currentPage == &mainMenuPage;
+    }
+    else if (currentPage == &screenTimerPage)
+    {
+      screenTimer = currentPage->getOptValue(currentPage->getArrowPos());
+      currentPage = &mainMenuPage;
+    }
+    else if (currentPage == &monitoringPage)
+    {
+      currentPage = &mainMenuPage;
+    }
+    currentPage->printPage();
     powerSaveMode = false;
+  }
+
+  ///update if monitoring page
+  if (currentPage == &monitoringPage && (unsigned long)(millis() - monitoringRefreshTime) > monitoringRefreshRate * 1000)
+  {
+    currentPage->printPage();
+    monitoringRefreshTime = millis(); 
   }
 
   ///powerSaveMode activation
