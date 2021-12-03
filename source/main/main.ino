@@ -12,7 +12,7 @@
 #define okButton 14
 
 ///constant algorythm variables
-constexpr short monitoringRefreshRate = 2;
+constexpr short monitoringRefreshRate = 1;
 
 ///algorythm variables
 short screenTimer, bulbTimer, lightTreshold;
