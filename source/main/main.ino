@@ -51,11 +51,11 @@ void setup()
   mainMenuPage.addOpt("Screen timer");
   mainMenuPage.addOpt("Monitoring");
 
-  lightTresholdPage.addOpt("Very low light", 1000);
-  lightTresholdPage.addOpt("Low light", 800);
-  lightTresholdPage.addOpt("Medium light", 500);
-  lightTresholdPage.addOpt("High light", 200);
-  lightTresholdPage.addOpt("Very high light", 10);
+  lightTresholdPage.addOpt("Very low", 1000);
+  lightTresholdPage.addOpt("Low", 800);
+  lightTresholdPage.addOpt("Medium", 500);
+  lightTresholdPage.addOpt("High", 200);
+  lightTresholdPage.addOpt("Very high", 10);
 
   bulbTimerPage.addOpt("5 seconds", 5);
   bulbTimerPage.addOpt("10 seconds", 10);
