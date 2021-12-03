@@ -45,6 +45,7 @@ public:
   {
     Screen::writeLine(0, title);
     for (short line = 1; line <= opts.size(); line++) Screen::writeLine(line, "   " + opts[line - 1].first);
+    for (short line = opts.size() + 1; line < HEIGHT; line++) Screen::writeLine(line, "");
     Screen::writeChar(arrowPos + 1, 1, '>');
   }
 };
