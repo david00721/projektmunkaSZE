@@ -187,7 +187,7 @@ void loop()
   ///serial monitoring values
   std::cout << "Bulb: " << (bulb ? "ON" : "OFF")
             << ", Motion: " << (motionState ? "YES" : "NO")
-            << ", Time: " << (millis() - lastTriggerTime) / 1000 << " seconds"
+            << ", Time: " << (unsigned long)(millis() - lastTriggerTime) / 1000 << " seconds"
             << ", Light: " << lightValue
             << std::endl;
 }
