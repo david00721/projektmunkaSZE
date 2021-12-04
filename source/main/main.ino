@@ -31,10 +31,15 @@ MonitoringPage monitoringPage = monitoringPage.getInstance();
 ///setup
 void setup()
 {
-  ///screen initialization
-  Wire.begin();
-  oled.init();
-  oled.clearDisplay();
+  ///screen connection check and setup
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+  delay(2000);
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
 
   ///accessing pins
   pinMode(upButton, INPUT);
