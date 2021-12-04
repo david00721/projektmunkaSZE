@@ -134,7 +134,7 @@ void loop()
       else if (currentPage == &lightTresholdPage)
       {
         lightTreshold = currentPage->getOptValue(currentPage->getArrowPos()); //<assign value of selected option to the variable
-        currentPage == &mainMenuPage;
+        currentPage = &mainMenuPage;
       }
       else if (currentPage == &screenTimerPage)
       {
