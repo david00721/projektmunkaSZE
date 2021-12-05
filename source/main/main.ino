@@ -16,7 +16,7 @@ constexpr short monitoringRefreshRate = 1;
 
 ///algorythm variables
 short screenTimer, bulbTimer, lightTreshold;
-bool bulb = false, powerSaveMode = true;
+bool bulb = false, powerSaveMode = true, autoMode = true;
 unsigned long lastTriggerTime = 0, buttonPressTime = 0, monitoringRefreshTime = 0;
 short lightValue;
 bool motionState;
@@ -26,6 +26,7 @@ MenuPage mainMenuPage = MenuPage("MAIN MENU");
 MenuPage lightTresholdPage = MenuPage("LIGHT TRSH");
 MenuPage bulbTimerPage = MenuPage("BULB TIMER");
 MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
+MenuPage overridePage = MenuPage("OVERRIDE");
 MonitoringPage monitoringPage = monitoringPage.getInstance();
 
 ///setup
@@ -49,6 +50,7 @@ void setup()
   mainMenuPage.addOpt("Bulb timer");
   mainMenuPage.addOpt("Light trsh");
   mainMenuPage.addOpt("Screen timer");
+  mainMenuPage.addOpt("Override");
   mainMenuPage.addOpt("Monitoring");
 
   lightTresholdPage.addOpt("Very low", 1000);
@@ -66,6 +68,10 @@ void setup()
   screenTimerPage.addOpt("10 seconds", 10);
   screenTimerPage.addOpt("30 seconds", 30);
   screenTimerPage.addOpt("1 minute", 60);
+
+  overridePage.addOpt("Auto");
+  overridePage.addOpt("On");
+  overridePage.addOpt("Off");
 
   monitoringPage.setLastTriggerTimePointer(&lastTriggerTime);
   monitoringPage.setLightValuePointer(&lightValue);
@@ -123,7 +129,8 @@ void loop()
           case 0: currentPage = &bulbTimerPage; break;
           case 1: currentPage = &lightTresholdPage; break;
           case 2: currentPage = &screenTimerPage; break;
-          case 3: currentPage = &monitoringPage; break;
+          case 3: currentPage = &overridePage; break;
+          case 4: currentPage = &monitoringPage; break;
         }
       }
       else if (currentPage == &bulbTimerPage)
@@ -139,6 +146,16 @@ void loop()
       else if (currentPage == &screenTimerPage)
       {
         screenTimer = currentPage->getOptValue(currentPage->getArrowPos()); //<assign value of selected option to the variable
+        currentPage = &mainMenuPage;
+      }
+      else if (currentPage == &overridePage)
+      {
+        switch (currentPage->getArrowPos())
+        {
+          case 0: autoMode = true; break;
+          case 1: autoMode = false; bulb = true; digitalWrite(LED_BUILTIN, LOW); break;
+          case 2: autoMode = false; bulb = false; digitalWrite(LED_BUILTIN, HIGH); break;
+        }
         currentPage = &mainMenuPage;
       }
       else if (currentPage == &monitoringPage)
@@ -165,23 +182,26 @@ void loop()
     currentPage->setArrowPos(0);
   }
 
-  ///trigger bulb
-  if (motionState) //<if motion has just been detected
+  if (autoMode)
   {
-    lastTriggerTime = millis(); //<store motion detection time
-    if (lastTriggerTime >= 1043) lastTriggerTime -= 1043; //<compensation for continuous sensor signal
-    if (lightValue >= lightTreshold) //<if dark (bulb is off, otherwise should not be dark)
+    ///trigger bulb
+    if (motionState) //<if motion has just been detected
     {
-      bulb = true;
-      digitalWrite(LED_BUILTIN, LOW);
+      lastTriggerTime = millis(); //<store motion detection time
+      if (lastTriggerTime >= 1043) lastTriggerTime -= 1043; //<compensation for continuous sensor signal
+      if (lightValue >= lightTreshold) //<if dark (bulb is off, otherwise should not be dark)
+      {
+        bulb = true;
+        digitalWrite(LED_BUILTIN, LOW);
+      }
     }
-  }
-
-  ///turn off bulb
-  else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimer * 1000) //<else if bulb is on and enough time has elapsed since the last trigger
-  {
-    bulb = false;
-    digitalWrite(LED_BUILTIN, HIGH);
+  
+    ///turn off bulb
+    else if (bulb && (unsigned long)(millis() - lastTriggerTime) > bulbTimer * 1000) //<else if bulb is on and enough time has elapsed since the last trigger
+    {
+      bulb = false;
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
   }
 
   ///serial monitoring values
