@@ -16,7 +16,7 @@ constexpr short monitoringRefreshRate = 1;
 
 ///algorythm variables
 short screenTimer, bulbTimer, lightTreshold;
-bool bulb = false, powerSaveMode = true, autoMode = true;
+bool bulb = false, powerSaveMode = true, autoMode;
 unsigned long lastTriggerTime = 0, buttonPressTime = 0, monitoringRefreshTime = 0;
 short lightValue;
 bool motionState;
@@ -85,6 +85,9 @@ void setup()
 
   screenTimerPage.setArrowPos(2);
   screenTimer = screenTimerPage.getOptValue(screenTimerPage.getArrowPos());
+
+  overridePage.setArrowPos(0);
+  autoMode = false;
 
   ///setting baud rate
   Serial.begin(115200);
