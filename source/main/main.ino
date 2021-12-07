@@ -26,7 +26,7 @@ MenuPage mainMenuPage = MenuPage("MAIN MENU");
 MenuPage lightTresholdPage = MenuPage("LIGHT SENS");
 MenuPage bulbTimerPage = MenuPage("BULB TIMER");
 MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
-MenuPage overridePage = MenuPage("OVERRIDE");
+MenuPage overridePage = MenuPage("OVERRIDE MODE");
 MonitoringPage monitoringPage = monitoringPage.getInstance();
 
 ///setup
