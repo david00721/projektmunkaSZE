@@ -76,8 +76,8 @@ public:
     Screen::clear();
     Screen::writeLine(0, title);
     Screen::writeLine(1, " Motion:");
-    Screen::writeLine(3, " Timer:");
-    Screen::writeLine(5, " Light:");
+    Screen::writeLine(3, " Last trigger:");
+    Screen::writeLine(5, " Light value:");
     Screen::writeLine(HEIGHT - 1, std::string(WIDTH - std::string("> Back").length(), ' ') + "> Back");
     refreshPage();
   }

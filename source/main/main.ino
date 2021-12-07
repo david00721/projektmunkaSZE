@@ -23,7 +23,7 @@ bool motionState;
 
 //creating pages
 MenuPage mainMenuPage = MenuPage("MAIN MENU");
-MenuPage lightTresholdPage = MenuPage("LIGHT TRSH");
+MenuPage lightTresholdPage = MenuPage("LIGHT SENS");
 MenuPage bulbTimerPage = MenuPage("BULB TIMER");
 MenuPage screenTimerPage = MenuPage("SCREEN TIMER");
 MenuPage overridePage = MenuPage("OVERRIDE");
@@ -48,9 +48,9 @@ void setup()
 
   ///filling pages
   mainMenuPage.addOpt("Bulb timer");
-  mainMenuPage.addOpt("Light trsh");
+  mainMenuPage.addOpt("Light sens");
   mainMenuPage.addOpt("Screen timer");
-  mainMenuPage.addOpt("Override");
+  mainMenuPage.addOpt("Override mode");
   mainMenuPage.addOpt("Monitoring");
 
   lightTresholdPage.addOpt("Very low", 1000);
@@ -59,7 +59,6 @@ void setup()
   lightTresholdPage.addOpt("High", 200);
   lightTresholdPage.addOpt("Very high", 10);
 
-  bulbTimerPage.addOpt("5 seconds", 5);
   bulbTimerPage.addOpt("10 seconds", 10);
   bulbTimerPage.addOpt("30 seconds", 30);
   bulbTimerPage.addOpt("1 minute", 60);
