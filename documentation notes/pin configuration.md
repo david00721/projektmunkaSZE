@@ -1,13 +1,9 @@
 Screen:
-  - SCK: D1
-  - SDA: D2
-PIR (motion sensor):
-  - DOUT: D7
-LDR (light sensor):
-  - DO: D8
-Gomb1:
-  - 12
-Gomb2:
-  - GPIO10 - SD3
-Gomb3:
-  - 2
+  - SCK: GPIO5
+  - SDA: GPIO4
+PIR (motion sensor) DOUT: GPIO10
+LDR (light sensor): ADC0
+UP button: GPIO12
+DOWN button: GPIO13
+OK button: GPIO14
+Relay IN1: GPIO2
